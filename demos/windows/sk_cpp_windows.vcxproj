@@ -139,10 +139,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\sk_cpp\main.cpp" />
-    <ClCompile Include="..\..\sk_cpp\sk_webview\sk_webview.cpp" />
     <ClCompile Include="..\..\sk_cpp\sk_webview\windows\sk_webview_windows.cpp" />
     <ClCompile Include="..\..\sk_cpp\sk_window_mngr\windows\sk_window_windows.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\sk_cpp\sk_str_utils.hxx" />

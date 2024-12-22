@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdio.h>
 
-#include "superkraft.hxx"
+#include "../../sk_cpp/superkraft.hxx"
 
 
 
