@@ -1,3 +1,4 @@
+#include <iostream>
 #include <windows.h>
 #include <wil/com.h>
 #include <wrl.h>
@@ -7,6 +8,7 @@
 
 #pragma comment(lib, "ole32.lib")
 
+#include "../../sk_str_utils.hxx"
 #include "sk_webview_windows.h"
 
 using namespace Microsoft::WRL;
@@ -27,14 +29,16 @@ void SK_WebView::create() {
                 // Create a CoreWebView2Controller and get the associated CoreWebView2 whose parent is the main window hWnd
                 env->CreateCoreWebView2Controller(*parentHwnd, Callback<ICoreWebView2CreateCoreWebView2ControllerCompletedHandler>(
                     [this](HRESULT result, ICoreWebView2Controller* _controller) -> HRESULT {
-                        if (FAILED(result)) {
-                            // Debug: Log controller creation failure
-                            return result;
+                        if (_controller != nullptr)
+                        {
+                            controller = _controller;
+                            controller->get_CoreWebView2(&webview);
                         }
-                        
-                        
-                        controller = _controller;
-                        controller->get_CoreWebView2(&webview);
+
+                        if (webview == nullptr)
+                        {
+                            return S_OK;
+                        }
 
                         // Add a few settings for the webview
                         // The demo step is redundant since the values are the default settings
@@ -54,6 +58,7 @@ void SK_WebView::create() {
                         webview->Navigate(L"https://github.com/superkraft-io");
 
                         // Step 4 - Navigation events
+                        gotoURL(currentURL);
 
                         // Step 5 - Scripting
 
@@ -73,4 +78,15 @@ void SK_WebView::update() {
         GetClientRect(*parentHwnd, &bounds);
         controller->put_Bounds(bounds);
     };
+}
+
+
+
+
+void SK_WebView::gotoURL(std::string url) {
+    currentURL = url;
+
+    if (webview == nullptr) return;
+
+    webview->Navigate(StringToLPCWSTR(url));
 }

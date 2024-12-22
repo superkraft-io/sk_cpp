@@ -13,22 +13,28 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\sk_webview">
-      <UniqueIdentifier>{c225633c-59b2-4501-a6ee-b4aca128329b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\sk_webview\windows">
-      <UniqueIdentifier>{a261cfbb-5bbd-492b-bb3c-cbf9524a74c2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\sk_window">
-      <UniqueIdentifier>{71d2ee1a-fcff-49dc-b65f-1d954abff710}</UniqueIdentifier>
+      <UniqueIdentifier>{b262fea5-7efa-4eee-8277-f9288cefcdac}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\sk_window\windows">
-      <UniqueIdentifier>{37912463-deba-47d0-904e-6123adeffa01}</UniqueIdentifier>
+      <UniqueIdentifier>{98b12615-1824-4e29-8bdc-a8b9b2ffc748}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\sk_webview">
+      <UniqueIdentifier>{435eaa97-ba9d-402e-bc12-7fd4521109c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sk_webview\windows">
+      <UniqueIdentifier>{63206964-296d-4564-a8c2-e49d10fa2ab7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\sk_cpp\main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sk_cpp\sk_window\windows\sk_window_windows.cpp">
+      <Filter>Source Files\sk_window\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\sk_cpp\sk_webview\sk_webview.cpp">
       <Filter>Source Files\sk_webview</Filter>
@@ -36,31 +42,25 @@
     <ClCompile Include="..\sk_cpp\sk_webview\windows\sk_webview_windows.cpp">
       <Filter>Source Files\sk_webview\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\sk_cpp\sk_window\windows\sk_window_windows.cpp">
-      <Filter>Source Files\sk_window\windows</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\sk_cpp\sk_webview\sk_webview.h">
-      <Filter>Source Files\sk_webview</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sk_cpp\sk_webview\windows\sk_webview_windows.h">
-      <Filter>Source Files\sk_webview\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sk_cpp\sk_window\windows\sk_window_windows.h">
-      <Filter>Source Files\sk_window\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\sk_cpp\sk_window\sk_window_mngr.hxx">
-      <Filter>Source Files\sk_window</Filter>
-    </ClInclude>
     <ClInclude Include="..\sk_cpp\sk_str_utils.hxx">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\sk_cpp\superkraft.hxx">
       <Filter>Source Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ClInclude Include="..\sk_cpp\sk_window\sk_window_mngr.hxx">
+      <Filter>Source Files\sk_window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sk_cpp\sk_window\windows\sk_window_windows.h">
+      <Filter>Source Files\sk_window\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sk_cpp\sk_webview\sk_webview.h">
+      <Filter>Source Files\sk_webview</Filter>
+    </ClInclude>
+    <ClInclude Include="..\sk_cpp\sk_webview\windows\sk_webview_windows.h">
+      <Filter>Source Files\sk_webview\windows</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

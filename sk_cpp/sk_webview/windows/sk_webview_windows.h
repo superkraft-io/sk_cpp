@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include <wil/com.h>
 #include <wrl.h>
 #include <WebView2.h>
@@ -13,8 +14,10 @@ public:
 	wil::com_ptr<ICoreWebView2> webview = nullptr;
 
 	void create();
-
 	void update();
+
+	std::string currentURL = "";
+	void gotoURL(std::string url);
 private:
 
 };

@@ -136,6 +136,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\sk_cpp\main.cpp" />
     <ClCompile Include="..\sk_cpp\sk_webview\sk_webview.cpp" />
     <ClCompile Include="..\sk_cpp\sk_webview\windows\sk_webview_windows.cpp" />
@@ -148,9 +151,6 @@
     <ClInclude Include="..\sk_cpp\sk_window\sk_window_mngr.hxx" />
     <ClInclude Include="..\sk_cpp\sk_window\windows\sk_window_windows.h" />
     <ClInclude Include="..\sk_cpp\superkraft.hxx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
