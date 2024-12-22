@@ -10,7 +10,7 @@ void SK_WebView::create() {
     NSRect frame = [parentWnd frame];
     webview = [[WKWebView alloc] initWithFrame: frame];
     [webview setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-    [parentWnd setContentView: webview];
+    [parentWnd setContentView: webview];	
     
     gotoURL(currentURL);
 }
