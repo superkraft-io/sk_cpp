@@ -5,19 +5,19 @@
 
 
 #if defined(_WIN32) || defined(_WIN64)
-#include "windows/sk_window_windows.h"
+    #include "windows/sk_window_windows.h"
 #elif defined(__APPLE__)
-#if TARGET_OS_IPHONE
-#include "windows/sk_window_ios.h"
-#else
-#include "windows/sk_window_macos.h"
-#endif
+    #if TARGET_OS_IPHONE
+        #include "ios/sk_window_ios.h"
+    #else
+        #include "macos/sk_window_macos.h"
+    #endif
 #elif defined(__linux__)
-#include "windows/sk_window_linux.h"
+    #include "linux/sk_window_linux.h"
 #elif defined(__ANDROID__)
-#include "windows/sk_window_android.h"
+    #include "android/sk_window_android.h"
 #else
-#error "Unsupported platform"
+    #error "Unsupported platform"
 #endif
 
 class SK_Window_Mngr {
