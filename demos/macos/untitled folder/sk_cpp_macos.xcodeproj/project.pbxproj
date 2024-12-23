@@ -1,0 +1,672 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		441B012B2D19577100AB7736 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 441B012A2D19577100AB7736 /* AppDelegate.mm */; };
+		441B012E2D19577100AB7736 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 441B012D2D19577100AB7736 /* ViewController.m */; };
+		441B01302D19577200AB7736 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 441B012F2D19577200AB7736 /* Assets.xcassets */; };
+		441B01352D19577200AB7736 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 441B01342D19577200AB7736 /* main.mm */; };
+		441B01402D19577200AB7736 /* sk_cpp_macosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 441B013F2D19577200AB7736 /* sk_cpp_macosTests.m */; };
+		441B014A2D19577200AB7736 /* sk_cpp_macosUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 441B01492D19577200AB7736 /* sk_cpp_macosUITests.m */; };
+		441B014C2D19577200AB7736 /* sk_cpp_macosUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 441B014B2D19577200AB7736 /* sk_cpp_macosUITestsLaunchTests.m */; };
+		441B01C02D19586200AB7736 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441B01BF2D19586200AB7736 /* WebKit.framework */; };
+		441B01C42D19A7D300AB7736 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 441B01C22D19A7D300AB7736 /* Main.storyboard */; };
+		4441732B2D19C8E500E8596F /* sk_webview_macos.mm in Sources */ = {isa = PBXBuildFile; fileRef = 444173092D19C8E500E8596F /* sk_webview_macos.mm */; };
+		444173302D19C8E500E8596F /* sk_window_macos.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4441731A2D19C8E500E8596F /* sk_window_macos.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		441B013C2D19577200AB7736 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 441B011E2D19577100AB7736 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 441B01252D19577100AB7736;
+			remoteInfo = sk_cpp_macos;
+		};
+		441B01462D19577200AB7736 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 441B011E2D19577100AB7736 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 441B01252D19577100AB7736;
+			remoteInfo = sk_cpp_macos;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		441B01262D19577100AB7736 /* sk_cpp_macos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sk_cpp_macos.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		441B01292D19577100AB7736 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		441B012A2D19577100AB7736 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		441B012C2D19577100AB7736 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		441B012D2D19577100AB7736 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		441B012F2D19577200AB7736 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		441B01342D19577200AB7736 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		441B01362D19577200AB7736 /* sk_cpp_macos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = sk_cpp_macos.entitlements; sourceTree = "<group>"; };
+		441B013B2D19577200AB7736 /* sk_cpp_macosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sk_cpp_macosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		441B013F2D19577200AB7736 /* sk_cpp_macosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sk_cpp_macosTests.m; sourceTree = "<group>"; };
+		441B01452D19577200AB7736 /* sk_cpp_macosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sk_cpp_macosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		441B01492D19577200AB7736 /* sk_cpp_macosUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sk_cpp_macosUITests.m; sourceTree = "<group>"; };
+		441B014B2D19577200AB7736 /* sk_cpp_macosUITestsLaunchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sk_cpp_macosUITestsLaunchTests.m; sourceTree = "<group>"; };
+		441B01BF2D19586200AB7736 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		441B01C32D19A7D300AB7736 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		444173082D19C8E500E8596F /* sk_webview_macos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sk_webview_macos.h; sourceTree = "<group>"; };
+		444173092D19C8E500E8596F /* sk_webview_macos.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = sk_webview_macos.mm; sourceTree = "<group>"; };
+		4441730E2D19C8E500E8596F /* sk_webview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sk_webview.h; sourceTree = "<group>"; };
+		444173192D19C8E500E8596F /* sk_window_macos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sk_window_macos.h; sourceTree = "<group>"; };
+		4441731A2D19C8E500E8596F /* sk_window_macos.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = sk_window_macos.mm; sourceTree = "<group>"; };
+		4441731C2D19C8E500E8596F /* sk_window_root.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sk_window_root.hxx; sourceTree = "<group>"; };
+		444173212D19C8E500E8596F /* sk_window_mngr.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sk_window_mngr.hxx; sourceTree = "<group>"; };
+		444173232D19C8E500E8596F /* sk_array.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sk_array.hxx; sourceTree = "<group>"; };
+		444173242D19C8E500E8596F /* sk_str_utils.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sk_str_utils.hxx; sourceTree = "<group>"; };
+		444173262D19C8E500E8596F /* superkraft.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = superkraft.hxx; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		441B01232D19577100AB7736 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				441B01C02D19586200AB7736 /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		441B01382D19577200AB7736 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		441B01422D19577200AB7736 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		441B011D2D19577100AB7736 = {
+			isa = PBXGroup;
+			children = (
+				441B01282D19577100AB7736 /* sk_cpp_macos */,
+				441B013E2D19577200AB7736 /* sk_cpp_macosTests */,
+				441B01482D19577200AB7736 /* sk_cpp_macosUITests */,
+				441B01272D19577100AB7736 /* Products */,
+				441B01BE2D19586200AB7736 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		441B01272D19577100AB7736 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				441B01262D19577100AB7736 /* sk_cpp_macos.app */,
+				441B013B2D19577200AB7736 /* sk_cpp_macosTests.xctest */,
+				441B01452D19577200AB7736 /* sk_cpp_macosUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		441B01282D19577100AB7736 /* sk_cpp_macos */ = {
+			isa = PBXGroup;
+			children = (
+				444173272D19C8E500E8596F /* sk_cpp */,
+				441B01292D19577100AB7736 /* AppDelegate.h */,
+				441B012A2D19577100AB7736 /* AppDelegate.mm */,
+				441B012C2D19577100AB7736 /* ViewController.h */,
+				441B012D2D19577100AB7736 /* ViewController.m */,
+				441B012F2D19577200AB7736 /* Assets.xcassets */,
+				441B01342D19577200AB7736 /* main.mm */,
+				441B01C22D19A7D300AB7736 /* Main.storyboard */,
+				441B01362D19577200AB7736 /* sk_cpp_macos.entitlements */,
+			);
+			path = sk_cpp_macos;
+			sourceTree = "<group>";
+		};
+		441B013E2D19577200AB7736 /* sk_cpp_macosTests */ = {
+			isa = PBXGroup;
+			children = (
+				441B013F2D19577200AB7736 /* sk_cpp_macosTests.m */,
+			);
+			path = sk_cpp_macosTests;
+			sourceTree = "<group>";
+		};
+		441B01482D19577200AB7736 /* sk_cpp_macosUITests */ = {
+			isa = PBXGroup;
+			children = (
+				441B01492D19577200AB7736 /* sk_cpp_macosUITests.m */,
+				441B014B2D19577200AB7736 /* sk_cpp_macosUITestsLaunchTests.m */,
+			);
+			path = sk_cpp_macosUITests;
+			sourceTree = "<group>";
+		};
+		441B01BE2D19586200AB7736 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				441B01BF2D19586200AB7736 /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4441730A2D19C8E500E8596F /* macos */ = {
+			isa = PBXGroup;
+			children = (
+				444173082D19C8E500E8596F /* sk_webview_macos.h */,
+				444173092D19C8E500E8596F /* sk_webview_macos.mm */,
+			);
+			path = macos;
+			sourceTree = "<group>";
+		};
+		4441730F2D19C8E500E8596F /* sk_webview */ = {
+			isa = PBXGroup;
+			children = (
+				4441730A2D19C8E500E8596F /* macos */,
+				4441730E2D19C8E500E8596F /* sk_webview.h */,
+			);
+			path = sk_webview;
+			sourceTree = "<group>";
+		};
+		4441731B2D19C8E500E8596F /* macos */ = {
+			isa = PBXGroup;
+			children = (
+				444173192D19C8E500E8596F /* sk_window_macos.h */,
+				4441731A2D19C8E500E8596F /* sk_window_macos.mm */,
+			);
+			path = macos;
+			sourceTree = "<group>";
+		};
+		4441731D2D19C8E500E8596F /* root */ = {
+			isa = PBXGroup;
+			children = (
+				4441731C2D19C8E500E8596F /* sk_window_root.hxx */,
+			);
+			path = root;
+			sourceTree = "<group>";
+		};
+		444173222D19C8E500E8596F /* sk_window_mngr */ = {
+			isa = PBXGroup;
+			children = (
+				4441731B2D19C8E500E8596F /* macos */,
+				4441731D2D19C8E500E8596F /* root */,
+				444173212D19C8E500E8596F /* sk_window_mngr.hxx */,
+			);
+			path = sk_window_mngr;
+			sourceTree = "<group>";
+		};
+		444173252D19C8E500E8596F /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				444173232D19C8E500E8596F /* sk_array.hxx */,
+				444173242D19C8E500E8596F /* sk_str_utils.hxx */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
+		444173272D19C8E500E8596F /* sk_cpp */ = {
+			isa = PBXGroup;
+			children = (
+				4441730F2D19C8E500E8596F /* sk_webview */,
+				444173222D19C8E500E8596F /* sk_window_mngr */,
+				444173252D19C8E500E8596F /* utils */,
+				444173262D19C8E500E8596F /* superkraft.hxx */,
+			);
+			name = sk_cpp;
+			path = ../../../../sk_cpp;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		441B01252D19577100AB7736 /* sk_cpp_macos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 441B014F2D19577200AB7736 /* Build configuration list for PBXNativeTarget "sk_cpp_macos" */;
+			buildPhases = (
+				441B01222D19577100AB7736 /* Sources */,
+				441B01232D19577100AB7736 /* Frameworks */,
+				441B01242D19577100AB7736 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = sk_cpp_macos;
+			productName = sk_cpp_macos;
+			productReference = 441B01262D19577100AB7736 /* sk_cpp_macos.app */;
+			productType = "com.apple.product-type.application";
+		};
+		441B013A2D19577200AB7736 /* sk_cpp_macosTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 441B01522D19577200AB7736 /* Build configuration list for PBXNativeTarget "sk_cpp_macosTests" */;
+			buildPhases = (
+				441B01372D19577200AB7736 /* Sources */,
+				441B01382D19577200AB7736 /* Frameworks */,
+				441B01392D19577200AB7736 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				441B013D2D19577200AB7736 /* PBXTargetDependency */,
+			);
+			name = sk_cpp_macosTests;
+			productName = sk_cpp_macosTests;
+			productReference = 441B013B2D19577200AB7736 /* sk_cpp_macosTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		441B01442D19577200AB7736 /* sk_cpp_macosUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 441B01552D19577200AB7736 /* Build configuration list for PBXNativeTarget "sk_cpp_macosUITests" */;
+			buildPhases = (
+				441B01412D19577200AB7736 /* Sources */,
+				441B01422D19577200AB7736 /* Frameworks */,
+				441B01432D19577200AB7736 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				441B01472D19577200AB7736 /* PBXTargetDependency */,
+			);
+			name = sk_cpp_macosUITests;
+			productName = sk_cpp_macosUITests;
+			productReference = 441B01452D19577200AB7736 /* sk_cpp_macosUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		441B011E2D19577100AB7736 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					441B01252D19577100AB7736 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					441B013A2D19577200AB7736 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 441B01252D19577100AB7736;
+					};
+					441B01442D19577200AB7736 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 441B01252D19577100AB7736;
+					};
+				};
+			};
+			buildConfigurationList = 441B01212D19577100AB7736 /* Build configuration list for PBXProject "sk_cpp_macos" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 441B011D2D19577100AB7736;
+			productRefGroup = 441B01272D19577100AB7736 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				441B01252D19577100AB7736 /* sk_cpp_macos */,
+				441B013A2D19577200AB7736 /* sk_cpp_macosTests */,
+				441B01442D19577200AB7736 /* sk_cpp_macosUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		441B01242D19577100AB7736 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				441B01302D19577200AB7736 /* Assets.xcassets in Resources */,
+				441B01C42D19A7D300AB7736 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		441B01392D19577200AB7736 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		441B01432D19577200AB7736 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		441B01222D19577100AB7736 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				441B012E2D19577100AB7736 /* ViewController.m in Sources */,
+				444173302D19C8E500E8596F /* sk_window_macos.mm in Sources */,
+				441B01352D19577200AB7736 /* main.mm in Sources */,
+				441B012B2D19577100AB7736 /* AppDelegate.mm in Sources */,
+				4441732B2D19C8E500E8596F /* sk_webview_macos.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		441B01372D19577200AB7736 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				441B01402D19577200AB7736 /* sk_cpp_macosTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		441B01412D19577200AB7736 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				441B014C2D19577200AB7736 /* sk_cpp_macosUITestsLaunchTests.m in Sources */,
+				441B014A2D19577200AB7736 /* sk_cpp_macosUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		441B013D2D19577200AB7736 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 441B01252D19577100AB7736 /* sk_cpp_macos */;
+			targetProxy = 441B013C2D19577200AB7736 /* PBXContainerItemProxy */;
+		};
+		441B01472D19577200AB7736 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 441B01252D19577100AB7736 /* sk_cpp_macos */;
+			targetProxy = 441B01462D19577200AB7736 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		441B01C22D19A7D300AB7736 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				441B01C32D19A7D300AB7736 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		441B014D2D19577200AB7736 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		441B014E2D19577200AB7736 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		441B01502D19577200AB7736 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CODE_SIGN_ENTITLEMENTS = sk_cpp_macos/sk_cpp_macos.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_C_LANGUAGE_STANDARD = c17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "superkraft-io.sk-cpp-macos";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		441B01512D19577200AB7736 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CODE_SIGN_ENTITLEMENTS = sk_cpp_macos/sk_cpp_macos.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_C_LANGUAGE_STANDARD = c17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "superkraft-io.sk-cpp-macos";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		441B01532D19577200AB7736 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "superkraft-io.sk-cpp-macosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/sk_cpp_macos.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/sk_cpp_macos";
+			};
+			name = Debug;
+		};
+		441B01542D19577200AB7736 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "superkraft-io.sk-cpp-macosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/sk_cpp_macos.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/sk_cpp_macos";
+			};
+			name = Release;
+		};
+		441B01562D19577200AB7736 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "superkraft-io.sk-cpp-macosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TEST_TARGET_NAME = sk_cpp_macos;
+			};
+			name = Debug;
+		};
+		441B01572D19577200AB7736 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "superkraft-io.sk-cpp-macosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TEST_TARGET_NAME = sk_cpp_macos;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		441B01212D19577100AB7736 /* Build configuration list for PBXProject "sk_cpp_macos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				441B014D2D19577200AB7736 /* Debug */,
+				441B014E2D19577200AB7736 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		441B014F2D19577200AB7736 /* Build configuration list for PBXNativeTarget "sk_cpp_macos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				441B01502D19577200AB7736 /* Debug */,
+				441B01512D19577200AB7736 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		441B01522D19577200AB7736 /* Build configuration list for PBXNativeTarget "sk_cpp_macosTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				441B01532D19577200AB7736 /* Debug */,
+				441B01542D19577200AB7736 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		441B01552D19577200AB7736 /* Build configuration list for PBXNativeTarget "sk_cpp_macosUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				441B01562D19577200AB7736 /* Debug */,
+				441B01572D19577200AB7736 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 441B011E2D19577100AB7736 /* Project object */;
+}

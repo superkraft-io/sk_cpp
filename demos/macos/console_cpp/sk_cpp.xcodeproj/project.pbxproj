@@ -16,7 +16,6 @@
 		44AE5FD92D1876F600303E55 /* sk_window_macos.mm in Sources */ = {isa = PBXBuildFile; fileRef = 44AE5FCA2D18729B00303E55 /* sk_window_macos.mm */; };
 		44AE5FDA2D1876F600303E55 /* sk_window_macos.h in Sources */ = {isa = PBXBuildFile; fileRef = 44AE5FCB2D18729B00303E55 /* sk_window_macos.h */; };
 		44AE5FDB2D1876F600303E55 /* sk_window_mngr.hxx in Sources */ = {isa = PBXBuildFile; fileRef = 44AE5FD02D18729B00303E55 /* sk_window_mngr.hxx */; };
-		44AE5FDC2D1876F600303E55 /* sk_str_utils.hxx in Sources */ = {isa = PBXBuildFile; fileRef = 44AE5FD22D18729B00303E55 /* sk_str_utils.hxx */; };
 		44AE5FDD2D1876F600303E55 /* superkraft.hxx in Sources */ = {isa = PBXBuildFile; fileRef = 44AE5FD32D18729B00303E55 /* superkraft.hxx */; };
 /* End PBXBuildFile section */
 
@@ -37,13 +36,14 @@
 		44085D932D1871EB0006628D /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		44085D9B2D18722F0006628D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		44085D9D2D1872360006628D /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		441B00E02D1941B000AB7736 /* sk_window_root.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sk_window_root.hxx; sourceTree = "<group>"; };
+		441B00E42D1949A300AB7736 /* sk_str_utils.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sk_str_utils.hxx; sourceTree = "<group>"; };
 		44AE5FB82D18729B00303E55 /* sk_webview_macos.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = sk_webview_macos.mm; sourceTree = "<group>"; };
 		44AE5FB92D18729B00303E55 /* sk_webview_macos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sk_webview_macos.h; sourceTree = "<group>"; };
 		44AE5FBF2D18729B00303E55 /* sk_webview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sk_webview.h; sourceTree = "<group>"; };
 		44AE5FCA2D18729B00303E55 /* sk_window_macos.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = sk_window_macos.mm; sourceTree = "<group>"; };
 		44AE5FCB2D18729B00303E55 /* sk_window_macos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sk_window_macos.h; sourceTree = "<group>"; };
 		44AE5FD02D18729B00303E55 /* sk_window_mngr.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sk_window_mngr.hxx; sourceTree = "<group>"; };
-		44AE5FD22D18729B00303E55 /* sk_str_utils.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sk_str_utils.hxx; sourceTree = "<group>"; };
 		44AE5FD32D18729B00303E55 /* superkraft.hxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = superkraft.hxx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,6 +95,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		441B00E12D1941B000AB7736 /* root */ = {
+			isa = PBXGroup;
+			children = (
+				441B00E02D1941B000AB7736 /* sk_window_root.hxx */,
+			);
+			path = root;
+			sourceTree = "<group>";
+		};
+		441B00E52D1949A300AB7736 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				441B00E42D1949A300AB7736 /* sk_str_utils.hxx */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
 		44AE5FBA2D18729B00303E55 /* macos */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +141,7 @@
 		44AE5FD12D18729B00303E55 /* sk_window_mngr */ = {
 			isa = PBXGroup;
 			children = (
+				441B00E12D1941B000AB7736 /* root */,
 				44AE5FCC2D18729B00303E55 /* macos */,
 				44AE5FD02D18729B00303E55 /* sk_window_mngr.hxx */,
 			);
@@ -136,7 +153,7 @@
 			children = (
 				44AE5FC02D18729B00303E55 /* sk_webview */,
 				44AE5FD12D18729B00303E55 /* sk_window_mngr */,
-				44AE5FD22D18729B00303E55 /* sk_str_utils.hxx */,
+				441B00E52D1949A300AB7736 /* utils */,
 				44AE5FD32D18729B00303E55 /* superkraft.hxx */,
 			);
 			name = sk_cpp;
@@ -206,7 +223,6 @@
 				44AE5FD92D1876F600303E55 /* sk_window_macos.mm in Sources */,
 				44AE5FDA2D1876F600303E55 /* sk_window_macos.h in Sources */,
 				44AE5FDB2D1876F600303E55 /* sk_window_mngr.hxx in Sources */,
-				44AE5FDC2D1876F600303E55 /* sk_str_utils.hxx in Sources */,
 				44AE5FDD2D1876F600303E55 /* superkraft.hxx in Sources */,
 				44085D942D1871EB0006628D /* main.mm in Sources */,
 			);
@@ -335,6 +351,8 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYMROOT = " $(SRCROOT)/Build/Products";
+				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
@@ -343,6 +361,8 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYMROOT = " $(SRCROOT)/Build/Products";
+				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};

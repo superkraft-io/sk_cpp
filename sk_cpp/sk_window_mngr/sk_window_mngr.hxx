@@ -1,10 +1,10 @@
 #pragma once
 
-#include <unordered_map>
 #include <string>
 #include <functional>
 #include <optional>
 
+#include <unordered_map>
 
 #if defined(_WIN32) || defined(_WIN64)
     #include "windows/sk_window_windows.h"

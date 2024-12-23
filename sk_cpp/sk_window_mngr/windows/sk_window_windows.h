@@ -6,7 +6,6 @@
 #include <string>
 
 #include "../root/sk_window_root.h"
-#include "../../sk_webview/sk_webview.h"
 
 class SK_Window : public SK_Window_Root {
 public:
@@ -18,14 +17,9 @@ public:
 	HWND hwnd;
 	WNDCLASS wc;
 
-	/* Functions below must be the same regardless of OS */
-
 	void initialize(unsigned int _wndIdx) override;
-
 	void create();
 	int applyTo(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);
-
-
 	void createWebView();
 private:
 

@@ -1,8 +1,6 @@
-#include <windows.h>
-#include <iostream>
-#include <stdio.h>
 #pragma once
 
+#include <optional>
 #include <string>
 
 #include "../../sk_webview/sk_webview.h"
@@ -19,11 +17,17 @@ public:
 	int height = 600;
 	int left = 0;
 	int top = 0;
+    
+    std::optional<int> zIndex = NULL;
+    bool transparent = false;
+    
 
 
 	SK_WebView webview;
 
-	virtual void initialize(unsigned int _wndIdx);
+	virtual void initialize(unsigned int _wndIdx) {
+        wndIdx = _wndIdx;
+    }
 private:
 
 };

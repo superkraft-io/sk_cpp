@@ -1,38 +1,18 @@
-#ifndef SK_WINDOW_MACOS_H
-#define SK_WINDOW_MACOS_H
+#pragma once
 
-#include "../../sk_webview/sk_webview.h"
+#include "../root/sk_window_root.hxx"
 
-class SK_Window {
+class SK_Window : public SK_Window_Root{
 public:
-    ~SK_Window();
-
     NSWindow *window;
     id resizeObserver;
 
-    /* Functions below must be the same regardless of OS */
-    std::string title = "SK Window";
-
-    bool visible = false;
-
-    int width = 800;
-    int height = 600;
-    int left = 0;
-    int top = 0;
-
-
-    SK_WebView webview;
-
+    void initialize(unsigned int _wndIdx) override;
     void create();
-    int applyTo();
-
-    void initialize(unsigned int wndIdx);
-
+    int applyTo(NSWindow* wnd);
     void createWebView();
-
+    
+    void setTransparent(bool _transparent);
 private:
     void handleWindowResize(NSNotification* notification);
 };
-
-
-#endif

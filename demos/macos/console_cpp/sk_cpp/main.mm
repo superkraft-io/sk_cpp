@@ -11,7 +11,7 @@ int main(int argc, const char * argv[]) {
         
         //create the main window
         SK_Window* wnd = sk.wndMngr.newWindow([](SK_Window* _c) {
-            _c->webview.gotoURL("https://github.com/superkraft-io");
+            _c->webview.navigate("https://github.com/superkraft-io");
             _c->visible = true;
             _c->applyTo();
         });
@@ -20,7 +20,8 @@ int main(int argc, const char * argv[]) {
         SK_Window* secondWnd = sk.wndMngr.newWindow([](SK_Window* _c) {
             _c->visible = true;
             _c->title = "Second window";
-            _c->webview.gotoURL("https://github.com/superkraft-io/sk_cpp");
+            _c->transparent = true;
+            //_c->webview.navigate("https://github.com/superkraft-io/sk_cpp");
             _c->create();
         });
 

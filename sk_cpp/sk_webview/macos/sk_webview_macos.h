@@ -1,5 +1,9 @@
+#pragma once
 
 #include <iostream>
+
+#import <Cocoa/Cocoa.h>
+#import <WebKit/WebKit.h>
 
 class SK_WebView {
 public:
@@ -11,7 +15,7 @@ public:
     void update();
 
     std::string currentURL = "";
-    void gotoURL(std::string url);
+    void navigate(std::string url);
 private:
 
 };

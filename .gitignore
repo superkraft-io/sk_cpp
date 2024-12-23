@@ -18,3 +18,5 @@ demos/windows/x64/
 demos/windows/sk_cpp_windows/
 
 *.xcuserstate
+
+demos/macos/sk_cpp.xcodeproj/xcuserdata/splitterai.xcuserdatad/xcdebugger/
