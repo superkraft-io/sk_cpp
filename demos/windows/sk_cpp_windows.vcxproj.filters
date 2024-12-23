@@ -28,6 +28,9 @@
     <Filter Include="Source Files\sk_cpp\sk_window_mngr\windows">
       <UniqueIdentifier>{2ba93ae2-d91a-4950-94a2-ececa0d73b8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\sk_cpp\sk_window_mngr\root">
+      <UniqueIdentifier>{d8d597b9-044e-4926-9058-dc688dd478ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -41,6 +44,9 @@
     </ClCompile>
     <ClCompile Include="..\..\sk_cpp\sk_webview\windows\sk_webview_windows.cpp">
       <Filter>Source Files\sk_cpp\sk_webview\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sk_cpp\sk_window_mngr\root\sk_window_root.cpp">
+      <Filter>Source Files\sk_cpp\sk_window_mngr\root</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="..\..\sk_cpp\sk_webview\sk_webview.h">
       <Filter>Source Files\sk_cpp\sk_webview</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sk_cpp\sk_window_mngr\root\sk_window_root.h">
+      <Filter>Source Files\sk_cpp\sk_window_mngr\root</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

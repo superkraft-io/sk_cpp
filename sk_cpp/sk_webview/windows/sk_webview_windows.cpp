@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <windows.h>
 #include <wil/com.h>
@@ -14,10 +16,6 @@
 using namespace Microsoft::WRL;
 
 void SK_WebView::create() {
-    // Initialize WebView2
-    // 
-// Step 3 - Create a single WebView within the parent window
-// Locate the browser and set up the environment for WebView
     CreateCoreWebView2EnvironmentWithOptions(nullptr, nullptr, nullptr,
         Callback<ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler>(
             [this](HRESULT result, ICoreWebView2Environment* env) -> HRESULT {
@@ -40,8 +38,7 @@ void SK_WebView::create() {
                             return S_OK;
                         }
 
-                        // Add a few settings for the webview
-                        // The demo step is redundant since the values are the default settings
+
                         webview->get_Settings(&settings);
                         settings->put_IsScriptEnabled(TRUE);
                         settings->put_AreDefaultScriptDialogsEnabled(TRUE);
@@ -49,20 +46,15 @@ void SK_WebView::create() {
                         settings->put_AreDefaultContextMenusEnabled(true);
                         settings->put_AreDevToolsEnabled(true);
 
-                        // Resize WebView to fit the bounds of the parent window
+
                         RECT bounds;
                         GetClientRect(*parentHwnd, &bounds);
                         controller->put_Bounds(bounds);
 
-                        // Schedule an async task to navigate to Bing
+
                         webview->Navigate(L"https://github.com/superkraft-io");
 
-                        // Step 4 - Navigation events
-                        gotoURL(currentURL);
-
-                        // Step 5 - Scripting
-
-                        // Step 6 - Communication between host and web content
+                        navigate(currentURL);
 
                         return S_OK;
                     }).Get());
@@ -83,7 +75,7 @@ void SK_WebView::update() {
 
 
 
-void SK_WebView::gotoURL(std::string url) {
+void SK_WebView::navigate(const std::string& url) {
     currentURL = url;
 
     if (webview == nullptr) return;

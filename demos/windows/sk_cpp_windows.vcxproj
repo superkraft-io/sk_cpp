@@ -109,7 +109,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\Aid\Desktop\repos\splitter\sk_cpp_dev\libs\windows\wil\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\libs\windows\wil\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -126,7 +126,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\Aid\Desktop\repos\splitter\sk_cpp_dev\libs\windows\wil\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\libs\windows\wil\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\sk_cpp\sk_webview\windows\sk_webview_windows.cpp" />
+    <ClCompile Include="..\..\sk_cpp\sk_window_mngr\root\sk_window_root.cpp" />
     <ClCompile Include="..\..\sk_cpp\sk_window_mngr\windows\sk_window_windows.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -147,6 +148,7 @@
     <ClInclude Include="..\..\sk_cpp\sk_str_utils.hxx" />
     <ClInclude Include="..\..\sk_cpp\sk_webview\sk_webview.h" />
     <ClInclude Include="..\..\sk_cpp\sk_webview\windows\sk_webview_windows.h" />
+    <ClInclude Include="..\..\sk_cpp\sk_window_mngr\root\sk_window_root.h" />
     <ClInclude Include="..\..\sk_cpp\sk_window_mngr\sk_window_mngr.hxx" />
     <ClInclude Include="..\..\sk_cpp\sk_window_mngr\windows\sk_window_windows.h" />
     <ClInclude Include="..\..\sk_cpp\superkraft.hxx" />

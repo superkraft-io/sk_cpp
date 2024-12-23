@@ -1,11 +1,14 @@
+#pragma once
+
 #include <windows.h>
 #include <iostream>
 #include <stdio.h>
 #include <string>
 
+#include "../root/sk_window_root.h"
 #include "../../sk_webview/sk_webview.h"
 
-class SK_Window {
+class SK_Window : public SK_Window_Root {
 public:
 	~SK_Window();
 
@@ -15,26 +18,13 @@ public:
 	HWND hwnd;
 	WNDCLASS wc;
 
-
-
-
 	/* Functions below must be the same regardless of OS */
-	std::string title = "SK Window";
 
-	bool visible = false;
-
-	int width = 800;
-	int height = 600;
-	int left = 0;
-	int top = 0;
-
-
-	SK_WebView webview;
+	void initialize(unsigned int _wndIdx) override;
 
 	void create();
 	int applyTo(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);
 
-	void initialize(unsigned int wndIdx);
 
 	void createWebView();
 private:

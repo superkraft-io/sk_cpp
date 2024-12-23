@@ -1,3 +1,5 @@
+#pragma once
+
 #include <windows.h>
 #include <iostream>
 #include <stdio.h>
@@ -59,7 +61,9 @@ LRESULT CALLBACK SK_Window::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPAR
 }
 
 
- void SK_Window::initialize(unsigned int wndIdx) {
+ void SK_Window::initialize(unsigned int _wndIdx) {
+     SK_Window_Root::initialize(_wndIdx);
+
      windowClassName += "_" + std::to_string(wndIdx);
  }
  

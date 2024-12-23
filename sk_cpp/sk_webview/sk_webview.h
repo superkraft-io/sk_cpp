@@ -1,3 +1,5 @@
+#pragma once
+
 #if defined(_WIN32) || defined(_WIN64)
 	#include "windows/sk_webview_windows.h"
 #elif defined(__APPLE__)

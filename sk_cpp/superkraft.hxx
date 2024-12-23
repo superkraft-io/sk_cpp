@@ -7,4 +7,4 @@ public:
 	SK_Window_Mngr wndMngr;
 };
 
- Superkraft sk;
+Superkraft sk;
