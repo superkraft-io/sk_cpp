@@ -6,21 +6,23 @@
 
 #include <unordered_map>
 
-#if defined(_WIN32) || defined(_WIN64)
+#include "../sk_common.hxx"
+
+
+#if SK_OS == windows
     #include "windows/sk_window_windows.h"
-#elif defined(__APPLE__)
-    #if TARGET_OS_IPHONE
-        #include "ios/sk_window_ios.h"
-    #else
-        #include "macos/sk_window_macos.h"
-    #endif
-#elif defined(__linux__)
+#elif SK_OS == macos
+	#include "macos/sk_window_macos.h"
+#elif SK_OS == ios
+    #include "ios/sk_window_ios.h"
+#elif SK_OS == linux
     #include "linux/sk_window_linux.h"
-#elif defined(__ANDROID__)
+#elif SK_OS == android
     #include "android/sk_window_android.h"
-#else
-    #error "Unsupported platform"
 #endif
+
+
+BEGIN_SK_NAMESPACE
 
 class SK_Window_Mngr {
 public:
@@ -47,3 +49,6 @@ public:
 private:
 
 };
+
+
+END_SK_NAMESPACE

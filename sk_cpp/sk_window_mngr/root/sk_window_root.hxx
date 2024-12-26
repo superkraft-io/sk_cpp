@@ -5,6 +5,9 @@
 
 #include "../../sk_webview/sk_webview.h"
 
+#include "../../sk_common.hxx"
+BEGIN_SK_NAMESPACE
+
 class SK_Window_Root {
 public:
 	unsigned int wndIdx;
@@ -31,3 +34,5 @@ public:
 private:
 
 };
+
+END_SK_NAMESPACE

@@ -6,6 +6,10 @@
 #include <WebView2.h>
 #include "WebView2EnvironmentOptions.h"
 
+
+#include "../../sk_common.hxx"
+BEGIN_SK_NAMESPACE
+
 class SK_WebView {
 public:
 	HWND* parentHwnd;
@@ -22,3 +26,5 @@ public:
 private:
 
 };
+
+END_SK_NAMESPACE
