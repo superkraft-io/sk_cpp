@@ -7,14 +7,14 @@
 
 #include "../../sk_common.hxx"
 #include "../../utils/sk_str_utils.hxx"
+#include "../../utils/sk_web_utils.hxx"
 
 
-
+using namespace SK;
 
 
 // Enum to represent resource context with MIME types
- enum class ResourceContext
- {
+enum class ResourceContext {
    Document,
    Stylesheet,
    Image,
@@ -28,110 +28,85 @@
    WebSocket,
    Manifest,
    Other
- };
+};
 
- // Map enum values to corresponding MIME types or descriptions
- static const std::map<ResourceContext, std::string> ResourceContextMimeMap = {{ResourceContext::Document, "text/html"},
-                                                                        {ResourceContext::Stylesheet, "text/css"},
-                                                                        {ResourceContext::Image, "image/*"},
-                                                                        {ResourceContext::Media, "video/*, audio/*"},
-                                                                        {ResourceContext::Font, "font/*"},
-                                                                        {ResourceContext::Script, "application/javascript"},
-                                                                        {ResourceContext::XMLHttpRequest, "application/json"},
-                                                                        {ResourceContext::Fetch, "application/json"},
-                                                                        {ResourceContext::TextTrack, "text/vtt"},
-                                                                        {ResourceContext::EventSource, "text/event-stream"},
-                                                                        {ResourceContext::WebSocket, "application/websocket"},
-                                                                        {ResourceContext::Manifest, "application/json"},
-                                                                        {ResourceContext::Other, "application/octet-stream"}};
+// Map enum values to corresponding MIME types or descriptions
+static const std::map<ResourceContext, SK_String> ResourceContextMimeMap = {
+    {ResourceContext::Document      , "text/html"                   },
+    {ResourceContext::Stylesheet    , "text/css"                    },
+    {ResourceContext::Image         , "image/*"                     },
+    {ResourceContext::Media         , "video/*, audio/*"            },
+    {ResourceContext::Font          , "font/*"                      },
+    {ResourceContext::Script        , "application/javascript"      },
+    {ResourceContext::XMLHttpRequest, "application/json"            },
+    {ResourceContext::Fetch         , "application/json"            },
+    {ResourceContext::TextTrack     , "text/vtt"                    },
+    {ResourceContext::EventSource   , "text/event-stream"           },
+    {ResourceContext::WebSocket     , "application/websocket"       },
+    {ResourceContext::Manifest      , "application/json"            },
+    {ResourceContext::Other         , "application/octet-stream"    }
+};
 
- // Function to convert COREWEBVIEW2_WEB_RESOURCE_CONTEXT to ResourceContext
- static ResourceContext ConvertToResourceContext(COREWEBVIEW2_WEB_RESOURCE_CONTEXT context)
- {
-   switch (context)
-   {
-   case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_DOCUMENT:
-     return ResourceContext::Document;
-   case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_STYLESHEET:
-     return ResourceContext::Stylesheet;
-   case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_IMAGE:
-     return ResourceContext::Image;
-   case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_MEDIA:
-     return ResourceContext::Media;
-   case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_FONT:
-     return ResourceContext::Font;
-   case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_SCRIPT:
-     return ResourceContext::Script;
-   case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_XML_HTTP_REQUEST:
-     return ResourceContext::XMLHttpRequest;
-   case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_FETCH:
-     return ResourceContext::Fetch;
-   case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_TEXT_TRACK:
-     return ResourceContext::TextTrack;
-   case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_EVENT_SOURCE:
-     return ResourceContext::EventSource;
-   case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_WEBSOCKET:
-     return ResourceContext::WebSocket;
-   case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_MANIFEST:
-     return ResourceContext::Manifest;
-   default:
-     return ResourceContext::Other;
+// Function to convert COREWEBVIEW2_WEB_RESOURCE_CONTEXT to ResourceContext
+static ResourceContext ConvertToResourceContext(COREWEBVIEW2_WEB_RESOURCE_CONTEXT context)
+{
+   switch (context){
+       case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_DOCUMENT:
+         return ResourceContext::Document;
+       case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_STYLESHEET:
+         return ResourceContext::Stylesheet;
+       case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_IMAGE:
+         return ResourceContext::Image;
+       case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_MEDIA:
+         return ResourceContext::Media;
+       case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_FONT:
+         return ResourceContext::Font;
+       case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_SCRIPT:
+         return ResourceContext::Script;
+       case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_XML_HTTP_REQUEST:
+         return ResourceContext::XMLHttpRequest;
+       case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_FETCH:
+         return ResourceContext::Fetch;
+       case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_TEXT_TRACK:
+         return ResourceContext::TextTrack;
+       case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_EVENT_SOURCE:
+         return ResourceContext::EventSource;
+       case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_WEBSOCKET:
+         return ResourceContext::WebSocket;
+       case COREWEBVIEW2_WEB_RESOURCE_CONTEXT_MANIFEST:
+         return ResourceContext::Manifest;
+       default:
+         return ResourceContext::Other;
    }
- }
-
-
- static std::string getMimeTypeFromFilename(const std::string& filename)
- {
-   static const std::unordered_map<std::string, std::string> mimeTypes = {
-     {"html", "text/html"},        {"htm", "text/html"},       {"css", "text/css"},   {"js", "application/javascript"},
-     {"json", "application/json"}, {"png", "image/png"},       {"jpg", "image/jpeg"}, {"jpeg", "image/jpeg"},
-     {"gif", "image/gif"},         {"svg", "image/svg+xml"},   {"txt", "text/plain"}, {"xml", "application/xml"},
-     {"pdf", "application/pdf"},   {"zip", "application/zip"}, {"mp3", "audio/mpeg"}, {"mp4", "video/mp4"},
-     {"wav", "audio/wav"}
-     // Add more MIME types as needed
-   };
-
-   // Find the last dot to get the file extension
-   size_t dotPos = filename.find_last_of('.');
-   if (dotPos != std::string::npos && dotPos + 1 < filename.size())
-   {
-     std::string extension = filename.substr(dotPos + 1);
-     auto it = mimeTypes.find(extension);
-     if (it != mimeTypes.end())
-     {
-       return it->second;
-     }
-   }
-
-   // Default MIME type if no match is found
-   return "application/octet-stream";
 }
 
-static std::string ReadStream(IStream* stream)
+
+
+static SK_String ReadStream(IStream* stream)
 {
   if (!stream)
     return "";
   char buffer[4096];
   ULONG bytesRead;
-  std::string result;
+  SK_String result;
   while (SUCCEEDED(stream->Read(buffer, sizeof(buffer), &bytesRead)) && bytesRead > 0)
   {
-    result.append(buffer, bytesRead);
+    result.data.append(buffer, bytesRead);
   }
   return result;
 }
 
 // Function to get MIME type from ResourceContext
-static std::string GetMimeType(ResourceContext context)
+static SK_String GetMimeTypeFromResourceContext(ResourceContext context)
 {
   auto it = ResourceContextMimeMap.find(context);
   return (it != ResourceContextMimeMap.end()) ? it->second : "unknown";
 }
 
-static std::string resourceContextToString(COREWEBVIEW2_WEB_RESOURCE_CONTEXT webResourceContext)
+static SK_String resourceContextToString(COREWEBVIEW2_WEB_RESOURCE_CONTEXT webResourceContext)
 {
   ResourceContext context = ConvertToResourceContext(webResourceContext);
-  return GetMimeType(context);
+  return GetMimeTypeFromResourceContext(context);
 }
 
 
@@ -186,12 +161,12 @@ static nlohmann::json ExtractHeadersToJson(ICoreWebView2HttpRequestHeaders* head
 class SK_WebViewResource_Request
  {
  public:
-   std::string url;
-   std::string protocol;
-   std::string host;
-   std::string path;
-   std::string method;
-   std::string resourceContext;
+        SK_String url;
+        SK_String protocol;
+        SK_String host;
+        SK_String path;
+        SK_String method;
+        SK_String resourceContext;
    nlohmann::json parameters;
    nlohmann::json headers;
    nlohmann::json body;
@@ -200,8 +175,7 @@ class SK_WebViewResource_Request
 
    SK_WebViewResource_Request::SK_WebViewResource_Request(ICoreWebView2WebResourceRequestedEventArgs* args) { parse(args); }
 
-   void parse(ICoreWebView2WebResourceRequestedEventArgs* args)
-   {
+   void parse(ICoreWebView2WebResourceRequestedEventArgs* args){
      wil::com_ptr<ICoreWebView2WebResourceRequest> request;
      args->get_Request(&request);
 
@@ -236,12 +210,11 @@ class SK_WebViewResource_Request
      wil::com_ptr<IStream> bodyStream;
      if (SUCCEEDED(request->get_Content(&bodyStream)))
      {
-       std::string _body = ReadStream(bodyStream.get());
-       if (!_body.empty())
-       {
+       SK_String _body = ReadStream(bodyStream.get());
+       if (_body.length() != 0){
          try
          {
-           body = nlohmann::json::parse(_body);
+           body = nlohmann::json::parse(_body.data);
          }
          catch (const nlohmann::json::exception& e)
          {
@@ -252,23 +225,22 @@ class SK_WebViewResource_Request
      }
    };
 
-   void parseParameters(const std::string& url)
+   void parseParameters(const SK_String& url)
    {
      std::regex urlRegex(R"(^(https?)://([^/?#]+)([^?#]*)(\?([^#]*))?)");
      std::smatch urlMatch;
 
-     if (std::regex_match(url, urlMatch, urlRegex))
+     if (std::regex_match(url.data, urlMatch, urlRegex))
      {
-       protocol = urlMatch[1]; // Protocol
-       host = urlMatch[2];     // Host
-       path = urlMatch[3];     // Path
+       protocol = urlMatch[1].str(); // Protocol
+       host = urlMatch[2].str();     // Host
+       path = urlMatch[3].str();     // Path
 
        // Parse query parameters if they exist
-       std::string query = urlMatch[5];
-       if (!query.empty())
-       {
+       SK_String query = urlMatch[5].str();
+       if (query.length() != 0){
          std::regex queryRegex(R"(([^&=]+)=([^&]*)?)");
-         auto queryBegin = std::sregex_iterator(query.begin(), query.end(), queryRegex);
+         auto queryBegin = std::sregex_iterator(query.data.begin(), query.data.end(), queryRegex);
          auto queryEnd = std::sregex_iterator();
 
          for (auto it = queryBegin; it != queryEnd; ++it)
@@ -291,7 +263,7 @@ public:
 
 
   int statusCode = 404;
-  std::string statusMessage = "Not found";
+  SK_String statusMessage = "Not found";
   nlohmann::json headers{{"Content-Type", "application/json"}};
   std::vector<BYTE> data;
 
@@ -307,20 +279,20 @@ public:
 
   SK_WebViewResource_Response::SK_WebViewResource_Response()
   {
-    std::string defaultData = "{\"error\":\"404\",\"message\":\"Not found\"}";
-    data = std::vector<BYTE>(defaultData.begin(), defaultData.end());
+    SK_String defaultData = "{\"error\":\"404\",\"message\":\"Not found\"}";
+    data = std::vector<BYTE>(defaultData.data.begin(), defaultData.data.end());
   }
 
 
 
 
   bool JSON(nlohmann::json json) {
-    std::string resAsString = std::any_cast<nlohmann::json>(json).dump(0);
+      SK_String resAsString = std::any_cast<nlohmann::json>(json).dump(0);
     //DBGMSG(resAsString.c_str());
 
     statusMessage = "";
 
-    data = std::vector<BYTE>(resAsString.begin(), resAsString.end());
+    data = std::vector<BYTE>(resAsString.data.begin(), resAsString.data.end());
 
     headers["Content-Type"] = "application/json";
 
@@ -329,13 +301,13 @@ public:
     return true;
   }
 
-  bool string(std::string str, std::string mimeType = "plain/text")
+  bool string(SK_String str, SK_String mimeType = "plain/text")
   {
     //DBGMSG(str.c_str());
 
     statusMessage = "";
 
-    data = std::vector<BYTE>(str.begin(), str.end());
+    data = std::vector<BYTE>(str.data.begin(), str.data.end());
     headers["Content-Type"] = mimeType;
 
     setAsOK();
@@ -343,13 +315,12 @@ public:
     return true;
   }
 
-  bool file(std::string path, std::string mimeType = "auto")
+  bool file(SK_String path, SK_String mimeType = "auto")
   {
     //DBGMSG(path.c_str());
 
-    FILE* file = fopen(path.c_str(), "rb");
-    if (file)
-    {
+    FILE* file = fopen(path.replaceAll("\\", "/").c_str(), "rb");
+    if (file){
       fseek(file, 0, SEEK_END);
       long dataSize = ftell(file);
       char* buffer = (char*)malloc(dataSize + 1);
@@ -366,7 +337,7 @@ public:
       fclose(file);
 
       if (mimeType == "auto"){
-        headers["Content-Type"] = getMimeTypeFromFilename(path);
+        headers["Content-Type"] = SK_Web_Utils::mime.fromFilename(path);
       } else {
         headers["Content-Type"] = mimeType;
       }
@@ -382,7 +353,7 @@ public:
   }
 
 
-  bool error(int code = 404, std::string msg = "Not Found")
+  bool error(int code = 404, SK_String msg = "Not Found")
   {
     statusCode = code;
     statusMessage = msg;
@@ -451,21 +422,108 @@ public:
 
 
 
+
+/**********/
+
+/*
+    sk_ipc://
+    sk_ui://
+*/
+
+
+
 using SK_WebViewResourceRequest_Callback = std::function<void(SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith)>;
+
+class SK_WebViewResourceHandler_Route {
+public:
+    SK_String id = "*";
+
+    SK_WebViewResourceRequest_Callback onRequest;
+};
+
+class SK_WebViewResourceHandler_RouteMngr {
+public:
+    std::vector<SK_WebViewResourceHandler_Route*> routes;
+
+    SK_WebViewResourceHandler_Route* on(const SK_String& id, SK_WebViewResourceRequest_Callback _onRequest) {
+        SK_WebViewResourceHandler_Route* route = findByID_simple(id);
+        if (route != nullptr) return route;
+
+        route = new SK_WebViewResourceHandler_Route();
+        route->id = id;
+        route->onRequest = _onRequest;
+
+        routes.push_back(route);
+        
+        return route;
+    }
+
+    bool off(const SK_String& id){
+        std::pair<int, SK_WebViewResourceHandler_Route*> res = findByID(id);
+        if (res.second == nullptr) return false;
+
+        auto it = std::find(routes.begin(), routes.end(), res.second);
+        if (it != routes.end()) {
+            routes.erase(it); // Remove the pointer from the vector
+        }
+
+        delete res.second;
+    }
+
+    std::pair<int, SK_WebViewResourceHandler_Route*> findByID(const SK_String& id) {
+        for (int i = 0; i < routes.size(); i++) {
+            SK_WebViewResourceHandler_Route* route = routes[i];
+            if (route->id == id) return std::pair<int, SK_WebViewResourceHandler_Route*>(i, route);
+        }
+
+        return std::pair<int, SK_WebViewResourceHandler_Route*>(-1, nullptr);
+    }
+
+    SK_WebViewResourceHandler_Route* findByID_simple(const SK_String& id) {
+        std::pair<int, SK_WebViewResourceHandler_Route*> res = findByID(id);
+        if (res.second == nullptr) return nullptr;
+        return res.second;
+    }
+
+    SK_WebViewResourceHandler_Route* operator[](const SK_String& key) {
+        return findByID_simple(key);
+    }
+};
+
+
 
 class SK_WebViewResourceHandler {
 public:
-    SK_WebViewResourceRequest_Callback onWebViewResourceRequested;
+    SK_String projectRoot = SK_Path_Utils::pathBackwardsUntilNeighbour("sk_project").value_or(std::filesystem::path{}).string() + "/sk_project";
 
-    SK_WebViewResourceHandler::SK_WebViewResourceHandler() {
+    SK_WebViewResourceHandler_RouteMngr routes;
 
-        /*onWebViewResourceRequested = [&](SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith) {
-        
-        };*/
+    SK_WebViewResourceHandler::SK_WebViewResourceHandler(){
+        //default route points to the "bundle" folder
+        routes.on("*", [&](SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith){
+            int x = 0;
+            #if defined SK_MODE_DEBUG
+                std::string filePath = projectRoot + request.path;
+                respondWith.file(filePath);
+            #else
+                
+            #endif
+        });
     }
 
-    void handleRequest(SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith) {
-        std::string url = request.url;
+    void handleRequest(SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith){
+        SK_String url = request.url;
+
+        SK_String routeID = request.protocol + "://" + request.host;
+        SK_WebViewResourceHandler_Route* route = routes[routeID];
+
+        if (route == nullptr) {
+            routes["*"]->onRequest(request, respondWith);
+            return;
+        }
+        
+        route->onRequest(request, respondWith);
+       
 
         /*response.fromJSON({
           {"key", "value"}
@@ -473,7 +531,7 @@ public:
 
         //respondWith.string("Hello :)", "text/html");
 
-        std::string filePath = "c:/test.html";
-        respondWith.file(filePath);
+        
     };
+
 };

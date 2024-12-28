@@ -21,8 +21,8 @@ public:
 	void create();
 	void update();
 
-	std::string currentURL = "";
-	void navigate(const std::string& url);
+	SK_String currentURL = "";
+	void navigate(const SK_String& url);
 private:
 
 };

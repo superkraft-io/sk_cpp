@@ -5,14 +5,15 @@
 #include <stdio.h>
 #include <string>
 
+#include "../../sk_common.hxx"
 
-#ifdef IPLUG_VERSION  // This macro is defined in iPlug2 projects
+#ifdef SK_FRAMEWORK = iPlug2
 	#include "../../sk_window_mngr/root/sk_window_root.hxx"
 #else
 	#include "../root/sk_window_root.h"
 #endif
 
-#include "../../sk_common.hxx"
+
 BEGIN_SK_NAMESPACE
 
 class SK_Window : public SK_Window_Root {
@@ -21,7 +22,7 @@ public:
 
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	std::string windowClassName = "SK_Window";
+	SK_String windowClassName = "SK_Window";
 	HWND hwnd;
 	WNDCLASS wc;
 

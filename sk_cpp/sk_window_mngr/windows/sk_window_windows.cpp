@@ -12,7 +12,7 @@
 
 
 SK_Window::~SK_Window() {
-    UnregisterClass(StringToLPCWSTR(windowClassName), wc.hInstance);
+    UnregisterClass(windowClassName.toLPCWSTR(), wc.hInstance);
 }
 
 // Window procedure for handling messages
@@ -77,7 +77,7 @@ int SK_Window::applyTo(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmd
     
     wc.lpfnWndProc = WindowProc;
     wc.hInstance = hInstance;
-    wc.lpszClassName = StringToLPCWSTR(windowClassName);
+    wc.lpszClassName = windowClassName.toLPCWSTR();
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 
     if (!RegisterClass(&wc)) {
@@ -97,8 +97,8 @@ int SK_Window::applyTo(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmd
     // Create the window
     hwnd = CreateWindowEx(
         0,
-        StringToLPCWSTR(windowClassName),
-        StringToLPCWSTR(title),
+        windowClassName.toLPCWSTR(),
+        title.toLPCWSTR(),
         
         wndStyle,
         

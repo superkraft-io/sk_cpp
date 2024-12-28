@@ -6,13 +6,14 @@
 #include "../../sk_webview/sk_webview.h"
 
 #include "../../sk_common.hxx"
+
 BEGIN_SK_NAMESPACE
 
 class SK_Window_Root {
 public:
 	unsigned int wndIdx;
 
-	std::string title = "SK Window";
+	SK_String title = "SK Window";
 
 	bool visible = false;
 

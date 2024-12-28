@@ -15,11 +15,11 @@ BEGIN_SK_NAMESPACE
 /** IWebView is a base interface for hosting a platform web view inside an IPlug plug-in's UI */
 class SK_IPC {
 public:
-    std::string sender_id = "SK_Backend";
+    SK_String sender_id = "SK_Backend";
     long long msg_id = 0;
 
 
-    using SK_IPC_FrontendCallback = std::function<void(nlohmann::json, std::string& responseData)>;
+    using SK_IPC_FrontendCallback = std::function<void(nlohmann::json, SK_String& responseData)>;
     using SK_IPC_BackendCallback = std::function<void(nlohmann::json)>;
 
     SK_IPC_BackendCallback onSendToFrontend;
@@ -31,13 +31,13 @@ public:
 
 
     /** Returns a standard OK IPC message*/
-    static inline const std::string OK = "{}";
+    static inline const SK_String OK = "{}";
 
     /** Returns an ERROR IPC object
     * @param error Error code
     * @param message A human readable message
     * @return Returns a stringified JSON object, e.g {error: "failed", message: "This request failed"}*/
-    static inline const std::string Error(std::string error, std::string message = ""){
+    static inline const SK_String Error(SK_String error, SK_String message = ""){
         nlohmann::json json;
 
         json["error"] = error;
@@ -48,11 +48,11 @@ public:
 
   
     nlohmann::json handle_IPC_Msg(const nlohmann::json& payload) {
-        std::string msg_id = std::string(payload["msg_id"]);
-        std::string type = std::string(payload["type"]);
-        std::string sender = std::string(payload["sender"]);
-        std::string target = std::string(payload["target"]);
-        std::string event_id = std::string(payload["event_id"]);
+        SK_String msg_id = SK_String(payload["msg_id"]);
+        SK_String type = SK_String(payload["type"]);
+        SK_String sender = SK_String(payload["sender"]);
+        SK_String target = SK_String(payload["target"]);
+        SK_String event_id = SK_String(payload["event_id"]);
         nlohmann::json data = payload["data"];
 
 
@@ -64,7 +64,7 @@ public:
             SK_iPlug2_IPC_packet["target"] = sender;
             SK_iPlug2_IPC_packet["event_id"] = payload["event_id"];
 
-            std::string responseData = "{\"error\":\"invalid_ipc_request\"}";
+            SK_String responseData = "{\"error\":\"invalid_ipc_request\"}";
 
             handleRequest(msg_id, type, sender, event_id, data, responseData);
 
@@ -85,7 +85,7 @@ public:
     /** Returns an event type if it exists
     * @param event_id Name of the event
     * @return "always" for a standard event, "once" for a one-time event, "" (empty string) if the event does not exist*/
-    std::string SK_IPC::eventExists(const std::string& event_id){
+    SK_String SK_IPC::eventExists(const SK_String& event_id){
         auto listener = listeners[event_id];
         auto listener_once = listeners_once[event_id];
 
@@ -99,7 +99,7 @@ public:
     * @param event_id Name of the event
     * @param callback Callback with the event data
     * @return A string representing the event message ID*/
-    void on(const std::string& event_id, SK_IPC_FrontendCallback callback) {
+    void on(const SK_String& event_id, SK_IPC_FrontendCallback callback) {
         if (eventExists(event_id) != "") return;
 
         listeners[event_id] = callback;
@@ -110,7 +110,7 @@ public:
   
     /** Removes an event
     * @param event_id Name of the event*/
-    void off(const std::string& event_id) {
+    void off(const SK_String& event_id) {
         listeners.erase(event_id);
         listeners_once.erase(event_id);
     }
@@ -119,14 +119,14 @@ public:
     /** Adds a one-time event that is fired when the frontend requests a response with the specified event ID. A one-time event is automatically removed once it has been fired.
     * @param event_id Name of the event
     * @param callback Callback with the event data*/
-    void once(const std::string& event_id, SK_IPC_FrontendCallback callback) {
+    void once(const SK_String& event_id, SK_IPC_FrontendCallback callback) {
         if (eventExists(event_id) != "") return;
 
         listeners_once[event_id] = callback;
     }
 
 
-    void handleRequest(std::string msg_id, std::string type, std::string sender, std::string event_id, const nlohmann::json& data, std::string& responseData) {
+    void handleRequest(SK_String msg_id, SK_String type, SK_String sender, SK_String event_id, const nlohmann::json& data, SK_String& responseData) {
         auto listener = listeners[event_id];
         auto listener_once = listeners_once[event_id];
 
@@ -150,7 +150,7 @@ public:
     }
 
 
-    void handleResponse(std::string msg_id, std::string type, std::string sender, std::string event_id, const nlohmann::json& data) {
+    void handleResponse(SK_String msg_id, SK_String type, SK_String sender, SK_String event_id, const nlohmann::json& data) {
         SK_IPC_BackendCallback awaiter = awaitList[msg_id];
         if (awaiter != NULL) awaiter(data);
     }
@@ -159,8 +159,8 @@ public:
         if (onMessage != NULL) onMessage(json);
     }
 
-    std::string sendToFE(std::string event_id, nlohmann::json data, std::string type, SK_IPC_BackendCallback cb) {
-        std::string _type = "request";
+    SK_String sendToFE(SK_String event_id, nlohmann::json data, SK_String type, SK_IPC_BackendCallback cb) {
+        SK_String _type = "request";
         if (type != "") _type = type;
 
 
@@ -191,7 +191,7 @@ public:
     * @param event_id Name of the event
     * @param data Data to send
     * @param cb Callback of the response*/
-    void request(std::string event_id, nlohmann::json data, SK_IPC_BackendCallback cb) {
+    void request(SK_String event_id, nlohmann::json data, SK_IPC_BackendCallback cb) {
         sendToFE(event_id, data, "request", cb);
     }
 

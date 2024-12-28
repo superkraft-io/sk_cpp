@@ -75,10 +75,10 @@ void SK_WebView::update() {
 
 
 
-void SK_WebView::navigate(const std::string& url) {
+void SK_WebView::navigate(const SK_String& url) {
     currentURL = url;
 
     if (webview == nullptr) return;
 
-    webview->Navigate(StringToLPCWSTR(url));
+    webview->Navigate(url.toLPCWSTR());
 }

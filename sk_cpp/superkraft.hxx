@@ -2,6 +2,8 @@
 
 #include "sk_common.hxx"
 
+#include "utils/sk_path_utils.hxx"
+
 #include "sk_window_mngr/sk_window_mngr.hxx"
 #include "sk_ipc/sk_ipc.hxx"
 
