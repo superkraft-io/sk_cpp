@@ -269,7 +269,9 @@ public:
 
   wil::com_ptr<ICoreWebView2WebResourceResponse> response;
 
-
+  SK_WebViewResource_Response::~SK_WebViewResource_Response() {
+      response.reset();
+  }
 
   void setAsOK() {
     statusCode = 200;
@@ -369,53 +371,49 @@ public:
 
 
 
-  wil::com_ptr<ICoreWebView2WebResourceResponse> get()
-  {
+  wil::com_ptr<ICoreWebView2WebResourceResponse> get(){
     // Create a memory stream from the byte array using CreateStreamOnHGlobal
     HGLOBAL hGlobal = GlobalAlloc(GMEM_MOVEABLE, data.size());
-    if (hGlobal == nullptr)
-    {
-      // Handle error if memory allocation fails
-      return nullptr;
+    if (hGlobal == nullptr){
+          // Handle error if memory allocation fails
+          return nullptr;
     }
 
     // Lock the global memory and copy data to it
     void* pData = GlobalLock(hGlobal);
-    if (pData != nullptr)
-    {
-      memcpy(pData, data.data(), data.size());
-      GlobalUnlock(hGlobal);
-
+    if (pData != nullptr) {
+        memcpy(pData, data.data(), data.size());
+        GlobalUnlock(hGlobal);
+        //delete pData;
+    }
                  
 
-       // Create an IStream from the global memory handle
-      wil::com_ptr<IStream> contentStream;
-      HRESULT hr = ::CreateStreamOnHGlobal(hGlobal, TRUE, &contentStream);
-      if (FAILED(hr))
-      {
-        // Handle the error properly if needed
-        GlobalFree(hGlobal);
-        return nullptr;
-      }
+    // Create an IStream from the global memory handle
+    wil::com_ptr<IStream> contentStream;
+    HRESULT hr = ::CreateStreamOnHGlobal(hGlobal, TRUE, &contentStream);
+    if (FAILED(hr))
+    {
+    // Handle the error properly if needed
+    GlobalFree(hGlobal);
+    return nullptr;
+    }
 
 
 
 
-      wil::unique_cotaskmem_string _statusMessage = stringToUniqueCoTaskMemString(statusMessage);
-      wil::unique_cotaskmem_string _responseHeaders = stringToUniqueCoTaskMemString(jsonToDelimitedString(headers));
+    wil::unique_cotaskmem_string _statusMessage = stringToUniqueCoTaskMemString(statusMessage);
+    wil::unique_cotaskmem_string _responseHeaders = stringToUniqueCoTaskMemString(jsonToDelimitedString(headers));
 
-      // Create the response with status code, headers, and content stream
-      hr = webviewEnvironment->CreateWebResourceResponse(contentStream.get(),   // The stream containing the custom content
-                                                          statusCode,            // HTTP status code
-                                                          _statusMessage.get(),   // Status message
-                                                          _responseHeaders.get(), // MIME type
-                                                          &response              // Output response
-      );
+    // Create the response with status code, headers, and content stream
+    hr = webviewEnvironment->CreateWebResourceResponse(contentStream.get(),   // The stream containing the custom content
+                                                        statusCode,            // HTTP status code
+                                                        _statusMessage.get(),   // Status message
+                                                        _responseHeaders.get(), // MIME type
+                                                        &response              // Output response
+    );
       
-      if (SUCCEEDED(hr))
-      {
+    if (SUCCEEDED(hr)){
         return response.get();
-      }
     }
   }
 };
