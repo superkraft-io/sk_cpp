@@ -1,5 +1,11 @@
 #pragma once
 
+
+//Stringify macro
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+
+
 //Define namespace
 #define BEGIN_SK_NAMESPACE namespace SK {
 #define END_SK_NAMESPACE }
@@ -36,8 +42,56 @@
 	#define SK_FRAMEWORK JUCE
 #endif
 
+
+//Define which mode
 #if defined DEBUG || defined _DEBUG
 	#define SK_MODE_DEBUG
 #else
 	#define SK_MODE_RUNTIME
+#endif
+
+
+//Define CPU architecture
+#if defined(__x86_64__) || defined(_M_X64)
+	#define SK_CPU_ARCH x64
+#elif defined(__i386__) || defined(_M_IX86)
+	#define SK_CPU_ARCH x86
+#elif defined(__arm__) || defined(_M_ARM)
+	#define SK_CPU_ARCH arm
+#elif defined(__aarch64__) || defined(_M_ARM64)
+	#define SK_CPU_ARCH arm64
+#elif defined(__ia64__) || defined(_M_IA64)
+	#define SK_CPU_ARCH ia64
+#elif defined(__mips__) || defined(__mips)
+	#if defined(__LP64__) || defined(_LP64)
+		#define SK_CPU_ARCH mips64
+	#else
+		#define SK_CPU_ARCH mips
+	#endif
+#elif defined(__mipsel__) || defined(__mips_le)
+	#if defined(__LP64__) || defined(_LP64)
+		#define SK_CPU_ARCH mips64el
+	#else
+		#define SK_CPU_ARCH mipsel
+	#endif
+#elif defined(__powerpc__) || defined(__powerpc64__)
+	#if defined(__PPC64__)
+		#define SK_CPU_ARCH ppc64
+	#else
+		#define SK_CPU_ARCH ppc
+	#endif
+#elif defined(__s390__) || defined(__s390x__)
+	#if defined(__s390x__)
+		#define SK_CPU_ARCH s390x
+	#else
+		#define SK_CPU_ARCH s390
+	#endif
+#elif defined(__riscv)
+	#if __riscv_xlen == 64
+		#define SK_CPU_ARCH riscv64
+	#else
+		#define SK_CPU_ARCH riscv32
+	#endif
+#else
+	#define SK_CPU_ARCH unknown
 #endif

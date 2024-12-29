@@ -8,13 +8,15 @@
 #include "../sk_common.hxx"
 #include "../../libs/general/choc/text/choc_StringUtilities.h"
 
+#include "../utils/sk_string.hxx"
+
 BEGIN_SK_NAMESPACE
 
-class SK_Path_Utils {
+static class SK_Path_Utils {
 public:
-	static std::map<std::string, std::filesystem::path> paths;
+	static inline std::map<std::string, std::string> paths;
 
-	static std::optional<std::filesystem::path> pathBackwardsUntilNeighbour(const std::string& neighbourName) {
+	static std::string pathBackwardsUntilNeighbour(const std::string& neighbourName){
 		std::filesystem::path currentPath(__FILE__);
 
 		bool stop = false;
@@ -22,7 +24,7 @@ public:
 			currentPath = currentPath.parent_path();
 
 			if (currentPath == currentPath.root_path()) {
-				return std::nullopt;
+				return "";
 			}
 
 			for (const auto& entry : std::filesystem::directory_iterator(currentPath)) {
@@ -33,7 +35,7 @@ public:
 			}
 		}
 
-		return static_cast<std::filesystem::path>(currentPath);
+		return currentPath.string();
 	}
 
 	static std::string getProjectRoot() {
@@ -45,18 +47,25 @@ public:
 		return path;
 	}
 
+	static void add(const SK_String& id, const SK_String& path) {
+		paths[id] = path.replaceAll("\\", "/");
+	}
 
 
-	SK_Path_Utils::SK_Path_Utils() {
+	static void init() {
 		/**** Used only in DEBUG mode when accessing filesystem directly ****/
 		
 		//When running in RELEASE mode, a pre-script will bundle all the files in "superkraft" and "SK_Project" and SK will access those files from memory instead.
 
-		paths["superkraft"] = SK_Path_Utils::pathBackwardsUntilNeighbour("superkraft").value_or(std::filesystem::path{});
-		paths["sk_project"] = SK_Path_Utils::pathBackwardsUntilNeighbour("SK_Project").value_or(std::filesystem::path{});
+		add("superkraft", SK_Path_Utils::pathBackwardsUntilNeighbour("superkraft") + "/superkraft");
+		add("sk_project", SK_Path_Utils::pathBackwardsUntilNeighbour("sk_project") + "/sk_project");
+		
+		//System paths
+		//paths["home"] = SK_Path_Utils::pathBackwardsUntilNeighbour("SK_Project").value_or(std::filesystem::path{});
 
 		/********************************************************************/
 	}
 };
+
 
 END_SK_NAMESPACE

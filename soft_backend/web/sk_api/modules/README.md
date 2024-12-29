@@ -1,17 +1,26 @@
 ﻿# JavaScript Modules
-
 There are a few modules available to use in the soft backend and your frontend views.
 
-The modules in the `node` folder reflect most if not all features of the native NodeJS modules.
 
-# Node.js Core Modules
+## SK Core Modules
+The modules in the `sk` folder are modules developed by the Superkraft team with certain specific features.
+
+| Name       | Description       |        |
+|----------------|----------------|----------------|
+| `application`   | API for application information   |
+| `vfs`   | Virtual File System module for file manipulation directly to memory rather than disk   |
+| `web`   | Perform GET, POST and download files   |
+
+
+## Node.js Core Modules
+The modules in the `node` folder reflect most if not all features of the native NodeJS modules.
 
 | Module            | Description                                                                 |   |
 |--------------------|-----------------------------------------------------------------------------|---|
 | `assert`          | Provides assertion functions for testing and validating conditions.         | -  |
 | `async_hooks`     | Provides an API to track asynchronous resources in Node.js.                | -  |
 | `buffer`          | Handles binary data, dealing with raw memory allocation.                   | -  |
-| `child_process`   | Provides methods to spawn child processes.                                  | 🟠  |
+| `child_process`   | Provides methods to spawn child processes.                                  | 🟠 Partial |
 | `cluster`         | Enables the creation of multi-core applications.                           | -  |
 | `console`         | Provides a simple debugging console similar to the browser's.              | -  |
 | `crypto`          | Offers cryptographic functionality, including OpenSSL wrappers.            | -  |
@@ -20,7 +29,7 @@ The modules in the `node` folder reflect most if not all features of the native 
 | `dns`             | Provides DNS resolution functions.                                         | -  |
 | `domain`          | Helps handle unhandled errors, but is deprecated.                          | -  |
 | `events`          | Provides the EventEmitter class to handle events.                          | -  |
-| `fs`              | Handles file system operations.                                            | 🟠  |
+| `fs`              | Handles file system operations.                                            | 🟠 Partial  |
 | `fs/promises`     | Promises-based file system API.                                             | -  |
 | `http`            | Used to create HTTP servers and make HTTP requests.                        | -  |
 | `http2`           | Provides support for HTTP/2.                                               | -  |
@@ -28,10 +37,10 @@ The modules in the `node` folder reflect most if not all features of the native 
 | `inspector`       | Provides an API for debugging and profiling.                               | -  |
 | `module`          | Provides utilities for interacting with Node.js modules.                   | -  |
 | `net`             | Creates network servers and clients.                                       | -  |
-| `os`              | Provides information about the operating system.                           | 🟠  |
-| `path`            | Handles and transforms file paths.                                         | 🟠  |
+| `os`              | Provides information about the operating system.                           | 🟠 Partial  |
+| `path`            | Handles and transforms file paths.                                         | 🟠 Partial  |
 | `perf_hooks`      | Provides performance monitoring and metrics.                               | -  |
-| `process`         | Provides information and control over the Node.js process.                | 🟠  |
+| `process`         | Provides information and control over the Node.js process.                | 🟠 Partial  |
 | `punycode`        | Converts Unicode strings to Punycode and vice versa.                       | -  |
 | `querystring`     | Parses and formats URL query strings.                                       | -  |
 | `readline`        | Interfaces for reading input from a Readable stream, like process.stdin.   | -  |
@@ -54,17 +63,11 @@ The modules in the `node` folder reflect most if not all features of the native 
 | `zlib`            | Provides compression and decompression utilities.                         | -  |
 
 
+## NPM Modules
 The modules in the `npm` folder emulate a few specific NPM modules.
 
 | Name       | Description       | Implementation       |
 |----------------|----------------|----------------|
-| `electron-js`   | ElectronJS emulation module   |  🟠    |
-| `fs-extra`   | An extension of the `fs` module   | 🟠   |
+| `electron-js`   | ElectronJS emulation module   |  🟠 Partial    |
+| `fs-extra`   | An extension of the `fs` module   | 🟠 Partial   |
 
-The modules in the `sk` folder are modules developed by the Superkraft team with certain specific features.
-
-| Name       | Description       |        |
-|----------------|----------------|----------------|
-| `application`   | API for application information   |
-| `vfs`   | Virtual File System module for file manipulation directly to memory rather than disk   |
-| `web`   | Perform GET, POST and download files   |

@@ -492,7 +492,6 @@ public:
 
 class SK_WebViewResourceHandler {
 public:
-    SK_String projectRoot = SK_Path_Utils::pathBackwardsUntilNeighbour("sk_project").value_or(std::filesystem::path{}).string() + "/sk_project";
 
     SK_WebViewResourceHandler_RouteMngr routes;
 
@@ -501,12 +500,22 @@ public:
         routes.on("*", [&](SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith){
             int x = 0;
             #if defined SK_MODE_DEBUG
-                std::string filePath = projectRoot + request.path;
+                std::string filePath = SK::SK_Path_Utils::paths["sk_project"] + request.path;
                 respondWith.file(filePath);
             #else
                 
             #endif
         });
+
+        routes.on("https://superkraft.io", [&](SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith) {
+            int x = 0;
+#if defined SK_MODE_DEBUG
+            SK_String filePath = SK::SK_Path_Utils::paths["superkraft"] + "/sk_cpp" + request.path;
+            respondWith.file(filePath);
+#else
+
+#endif
+            });
     }
 
     void handleRequest(SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith){
