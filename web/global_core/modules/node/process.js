@@ -1,13 +1,8 @@
-window.__JUCE__.backend.addEventListener('sk.processEventListener', res => {
-    const event = new CustomEvent(res.eventName, res.data)
-    window.dispatchEvent(event)
-})
-
 module.exports = {
     on: (eventName, cb) => { window.addEventListener(eventName, cb) },
     off: (eventName, cb) => { window.removeEventListener(eventName, cb) },
 
-    get env() { return sk_juce_api.fetch('node/process', { func: 'env' }) },
+    get env() { return sk_api.fetch('node/process', { func: 'env' }) },
 
     abort: () => {
     },
@@ -15,10 +10,10 @@ module.exports = {
 
     get allowedNodeEnvironmentFlags() { return },
 
-    get arch() { return sk_juce_api.staticInfo.machine.arch },
+    get arch() { return sk_api.staticInfo.machine.arch },
 
-    get argv() { return sk_juce_api.staticInfo.application.argv },
-    get argv0() { return sk_juce_api.staticInfo.application.argv0 },
+    get argv() { return sk_api.staticInfo.application.argv },
+    get argv0() { return sk_api.staticInfo.application.argv0 },
 
     channel: {
         ref(){
@@ -33,7 +28,7 @@ module.exports = {
     chdir(directory) {
         console.log('chdir')
         try {
-            var res = sk_juce_api.fetch('node/process', { func: 'chdir', directory: directory })
+            var res = sk_api.fetch('node/process', { func: 'chdir', directory: directory })
             if (res.error) throw res.error
         } catch (err) {
             throw err
@@ -90,7 +85,7 @@ module.exports = {
         }
     },
     get pid() { },
-    get platform() { return sk_juce_api.staticInfo.machine.platform },
+    get platform() { return sk_api.staticInfo.machine.platform },
     get ppid(){ },
     get release(){ },
     get report(){

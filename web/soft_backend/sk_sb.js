@@ -18,10 +18,10 @@ function sleep(delay = 1000) {
 var start_app = async () => {
     window.global = window
 
-    await import('/superkraft/engines/japp/virtual_backend/web_frontend/sk_juce_api/core.js')
-    await import('/superkraft/engines/japp/virtual_backend/web_frontend/sk_juce_api/module.js')
-    await import('/superkraft/engines/japp/virtual_backend/web_frontend/sk_juce_api/modules/node/path.js')
-    sk_juce_api.initModules(__dirname + '/sk_juce_api')
+    await import('/sk_api/core.js')
+    await import('/sk_api/module.js')
+    await import('/sk_api/modules/node/path.js')
+    sk_juce_api.initModules(__dirname + '/sk_api')
 
 
 

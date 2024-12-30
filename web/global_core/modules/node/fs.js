@@ -1,5 +1,5 @@
 function __fs_req_sync(operation, opt, async) {
-    var res = sk_juce_api.fetch('node/fs', { ...{ operation: operation }, ...opt })
+    var res = sk_api.fetch('node/fs', { ...{ operation: operation }, ...opt })
     return res
 }
 

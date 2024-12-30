@@ -1,5 +1,5 @@
 module.exports = {
-    EOL: sk_juce_api.staticInfo.machine.EOL,
+    EOL: sk_api.staticInfo.machine.EOL,
 
     availableParallelism() {
         return sk_juce_api.fetch('sk/machine', {func: 'getCPUInfo'}).coreCount

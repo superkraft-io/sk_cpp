@@ -1,4 +1,4 @@
-sk_juce_api.path = {
+sk_api.path = {
     dirname(path) {
         var split = this.unixify(path).split('/')
         split.splice(split.length - 1, 1)
@@ -20,4 +20,4 @@ sk_juce_api.path = {
     },
 }
 
-try { module.exports = sk_juce_api.path } catch (err) { }
+try { module.exports = sk_api.path } catch (err) { }

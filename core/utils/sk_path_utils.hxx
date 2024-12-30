@@ -53,17 +53,25 @@ public:
 
 
 	static void init() {
-		/**** Used only in DEBUG mode when accessing filesystem directly ****/
-		
-		//When running in RELEASE mode, a pre-script will bundle all the files in "superkraft" and "SK_Project" and SK will access those files from memory instead.
+		#ifdef SK_MODE_DEBUG
+			//In DEBUG mode the projectRoot will be set to the root folder of your project.
+			SK_String projectRoot = SK_String(SK_Path_Utils::pathBackwardsUntilNeighbour("superkraft")).replaceAll("\\", "/");
+		#elif
+			//In RELEASE mode the projectRoot will be set to the virtual file system called Binary Data File Systtem
+			//When running in RELEASE mode, a pre-script will bundle all the files in "superkraft" and "SK_Project" and SK will access those files from memory instead.
+			SK_String projectRoot = "sk_bdfs:";
+		#endif
 
-		add("superkraft", SK_Path_Utils::pathBackwardsUntilNeighbour("superkraft") + "/superkraft");
-		add("sk_project", SK_Path_Utils::pathBackwardsUntilNeighbour("sk_project") + "/sk_project");
-		
-		//System paths
-		//paths["home"] = SK_Path_Utils::pathBackwardsUntilNeighbour("SK_Project").value_or(std::filesystem::path{});
+		SK_String superkraftRoot = projectRoot + "/superkraft";
 
-		/********************************************************************/
+		add("superkraft", superkraftRoot);
+		add("soft_backend", superkraftRoot + "/cpp/soft_backend/web");
+		add("sk_project", projectRoot + "/sk_project");
+		
+		
+		//The paths below will be OS specific
+		add("home", "");
+		add("temp", "");
 	}
 };
 

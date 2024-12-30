@@ -1,4 +1,4 @@
-window.sk_juce_api = {
+window.sk_api = {
     staticInfo: {}
 }
 
@@ -7,7 +7,7 @@ function getDirname(asArray) {
     var stack = (new Error()).stack
     //stack = console.trace()
     var firstCaller = stack.split('\n').at(-1)
-    var split1 = firstCaller.split('//juce.backend')
+    var split1 = firstCaller.split('')
     var el1 = split1[1]
     var split2 = el1.split(':')
     var el2 = split2[0]
@@ -26,7 +26,7 @@ Object.defineProperty(window, '__dirname', {
 });
 
 
-sk_juce_api.fetch = (path, data, onPreParse)=>{
+sk_api.fetch = (path, data, onPreParse)=>{
     /*
     
         maybe need to format path to handle certain scenarios such as:
@@ -62,28 +62,28 @@ sk_juce_api.fetch = (path, data, onPreParse)=>{
     return response
 }
 
-window.sk_juce_api.nativeModules = {
+window.sk_api.nativeModules = {
     node: { fs: __dirname + '/modules/node/fs.js' }
 }
 
 
 
-sk_juce_api.initModules = (rootDir) => {
+sk_api.initModules = (rootDir) => {
     var fs = require('fs')
     var categories = fs.readdirSync(rootDir + '/modules/')
 
     for (var i in categories) {
         var catName = categories[i]
 
-        if (!sk_juce_api.nativeModules[catName]) sk_juce_api.nativeModules[catName] = {}
+        if (!sk_api.nativeModules[catName]) sk_api.nativeModules[catName] = {}
 
         var moduleCategory = fs.readdirSync(rootDir + '/modules/' + catName + '/')
         for (var u in moduleCategory) {
             var modName = moduleCategory[u].split('.')[0]
-            sk_juce_api.nativeModules[catName][modName] = rootDir + '/modules/' + catName + '/' + modName + '.js'
+            sk_api.nativeModules[catName][modName] = rootDir + '/modules/' + catName + '/' + modName + '.js'
         }
     }
 }
 
-sk_juce_api.staticInfo.machine = sk_juce_api.fetch('sk/machine', { func: 'getStaticInfo' })
-sk_juce_api.staticInfo.application = sk_juce_api.fetch('sk/application', { func: 'getStaticInfo' })
+sk_api.staticInfo.machine = sk_api.fetch('sk/machine', { func: 'getStaticInfo' })
+sk_api.staticInfo.application = sk_api.fetch('sk/application', { func: 'getStaticInfo' })

@@ -20,9 +20,9 @@ class SK_Module {
     }
 
     loadFromURL(path) {
-        var data = sk_juce_api.fetch(path)
+        var data = sk_api.fetch(path)
 
-        var trimmedPath = path.replace('https://juce.backend', '').split(':')[0].split('/')
+        var trimmedPath = path.replace('', '').split(':')[0].split('/')
         trimmedPath.splice(trimmedPath.length - 1, 1)
         trimmedPath = trimmedPath.join('/')
         this.loadFromData(data, trimmedPath)
@@ -34,11 +34,11 @@ class SK_Module {
         var split = path.split(':')
 
         var nativeTarget = split[0].toLowerCase()
-        var nativeModulesCategory = sk_juce_api.nativeModules[nativeTarget]
+        var nativeModulesCategory = sk_api.nativeModules[nativeTarget]
 
         if (!nativeModulesCategory) {
-            for (var catName in sk_juce_api.nativeModules) {
-                var category = sk_juce_api.nativeModules[catName]
+            for (var catName in sk_api.nativeModules) {
+                var category = sk_api.nativeModules[catName]
                 var modPath = category[path]
                 if (modPath) return modPath
             }
@@ -59,11 +59,11 @@ class SK_Module {
     /***********************/
 
     static normalizePath(_path, parentModule) {
-        var path = sk_juce_api.path.unixify(_path)
+        var path = sk_api.path.unixify(_path)
 
         if (path.substr(0, 2) == './') {
             if (parentModule) {
-                path = sk_juce_api.path.dirname(parentModule.__sk_module_source_path) + path.substr(1, path.length)
+                path = sk_api.path.dirname(parentModule.__sk_module_source_path) + path.substr(1, path.length)
             } else {
                 //I'm not entirely sure how to format the path if there is no parent module.
                 //What root path do we use? the assets folder? The SK root folder?
@@ -79,7 +79,7 @@ class SK_Module {
         if (path.substr(0, 3) != '../') return path
 
 
-        var split = (sk_juce_api.path.dirname(parentModule.__sk_module_source_path) + '/' + path).split('/')
+        var split = (sk_api.path.dirname(parentModule.__sk_module_source_path) + '/' + path).split('/')
 
 
         var arr = []
@@ -107,7 +107,7 @@ class SK_Module {
         module.__sk_module_parent = parentModule
         module.__sk_module_require = path => {
             var _this = arguments
-            var str = sk_juce_api.path.dirname(path, module)
+            var str = sk_api.path.dirname(path, module)
             return require(path, module)
         }
 
@@ -137,10 +137,10 @@ class SK_Module {
 
 SK_Module.cache = {}
 
-sk_juce_api.sk_module = SK_Module
+sk_api.sk_module = SK_Module
 
-window.require = sk_juce_api.sk_module.require
-window.requireAsync = sk_juce_api.sk_module.requireAsync
+window.require = sk_api.sk_module.require
+window.requireAsync = sk_api.sk_module.requireAsync
 
 
 export default SK_Module

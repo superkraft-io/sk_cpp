@@ -47,7 +47,7 @@
 #if defined DEBUG || defined _DEBUG
 	#define SK_MODE_DEBUG
 #else
-	#define SK_MODE_RUNTIME
+	#define SK_MODE_RELEASE
 #endif
 
 
