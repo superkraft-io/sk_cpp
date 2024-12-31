@@ -1,21 +1,12 @@
-function __fs_req_sync(operation, opt, async) {
-    var res = sk_api.fetch('node/fs', { ...{ operation: operation }, ...opt })
-    return res
-}
-
-async function __fs_req_async(operation, opt, async) {
-    var res = await window.sk_ipc.ipc.request('node:fs', { ...{ operation: operation }, ...opt })
-    return res
-}
 var __fs = {
     accessSync(path) {
-        var res = __fs_req_sync('access', { path: path })
+        var res = SK_Module.syncOperation('node:fs', 'access', { path: path })
         return res
     },
 
     statSync(path) {
         try {
-            var info = __fs_req_sync('stat', { path: path })
+            var info = SK_Module.syncOperation('node:fs', 'stat', { path: path })
             info.isDirectory = () => { return info.type === 'dir' }
             return info
         } catch (err) {
@@ -24,12 +15,12 @@ var __fs = {
     },
 
     writeFileSync(path, data) {
-        return __fs_req_sync('writeFile', { path: path, data: data })
+        return SK_Module.syncOperation('node:fs', 'writeFile', { path: path, data: data })
     },
 
     readFileSync(path) {
         try {
-            var res = __fs_req_sync('readFile', { path: path })
+            var res = SK_Module.syncOperation('node:fs', 'readFile', { path: path })
 
             return atob(res)
         } catch (err) {
@@ -39,7 +30,7 @@ var __fs = {
 
     readdirSync(path, asObj) {
         try {
-            var res = __fs_req_sync('readdir', { path: path })
+            var res = SK_Module.syncOperation('node:fs', 'readdir', { path: path })
 
             var list = []
 
@@ -55,7 +46,7 @@ var __fs = {
 
     unlinkSync(path) {
         try {
-            var res = __fs_req_sync('unlink', { path: path })
+            var res = SK_Module.syncOperation('node:fs', 'unlink', { path: path })
             if (res.error) throw res.err
         } catch (err) {
             throw err
@@ -132,7 +123,7 @@ var __fs = {
 
 
         try {
-            var res = __fs_req_sync('mkdir', { ...{ path: path }, ...defOpts })
+            var res = SK_Module.syncOperation('node:fs', 'mkdir', { ...{ path: path }, ...defOpts })
             if (res.error) throw res.err
         } catch (err) {
             throw err
@@ -142,14 +133,14 @@ var __fs = {
 
     promises: {
         async access(path) {
-            var res = await __fs_req_async('access', { path: path })
+            var res = await SK_Module.asyncOperation('node:fs', 'access', { path: path })
             return res
         },
 
         stat(path) {
             return new Promise(async (resolve, reject) => {
                 try {
-                    var info = await __fs_req_async('stat', { path: path })
+                    var info = SK_Module.asyncOperation('node:fs', 'stat', { path: path })
                     info.isDirectory = () => { return info.type === 'dir' }
                     resolve(info)
                 } catch (err) {
@@ -165,7 +156,7 @@ var __fs = {
         readFile(path) {
             return new Promise(async (resolve, reject) => {
                 try {
-                    var res = await __fs_req_async('readFile', { path: path })
+                    var res = SK_Module.asyncOperation('node:fs', 'readFile', { path: path })
 
                     resolve(atob(res))
                 } catch (err) {
@@ -177,7 +168,7 @@ var __fs = {
         readdir(path, asObj) {
             return new Promise(async (resolve, reject) => {
                 try {
-                    var res = await __fs_req_async('readdir', { path: path })
+                    var res = SK_Module.asyncOperation('node:fs', 'readdir', { path: path })
 
                     var list = []
 
@@ -195,7 +186,7 @@ var __fs = {
         mkdir() {
             return new Promise(async (resolve, reject) => {
                 try {
-                    var res = __fs_req_sync('mkdir', { ...{ path: path }, ...defOpts })
+                    var res =  SK_Module.syncOperation('node:fs', 'mkdir', { ...{ path: path }, ...defOpts })
                     if (res.error) return reject(res.err)
                     resolve()
                 } catch (err) {

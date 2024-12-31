@@ -18,10 +18,8 @@ function sleep(delay = 1000) {
 var start_app = async () => {
     window.global = window
 
-    await import('/sk_api/core.js')
-    await import('/sk_api/module.js')
-    await import('/sk_api/modules/node/path.js')
-    sk_juce_api.initModules(__dirname + '/sk_api')
+    await import('https://sk.gjc/modules/node/path.js')
+    sk_api.initModules()
 
 
 

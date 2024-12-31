@@ -1,3 +1,5 @@
+console.log('sk_global_js_core.js')
+
 //Fundamental core functions
 function getDirname(asArray) {
     var stack = (new Error()).stack
@@ -58,15 +60,15 @@ window.__sk_global_core = {
 }
 
 class SK_Global_Core {
-    constructor(opt) {
+    constructor(opt){
         this.initialized = false
 
         this.id = opt.id
 
 
         this.staticInfo = {
-            machine: this.fetch('sk.info/machine', { func: 'getStaticInfo' }),
-            application: this.fetch('sk.info/application', { func: 'getStaticInfo' })
+            machine: '<sk_machine_info>',
+            application: '<sk_application_info>'
         }
 
 
@@ -78,7 +80,7 @@ class SK_Global_Core {
         this.init()
     }
 
-    init() {
+    init(){
         this.ipc = new SK_IPC({
           sender_id: this.id
         })
@@ -88,7 +90,7 @@ class SK_Global_Core {
         console.log('SK Global Core successfully initialized. Accessable via sk_api')
     }
 
-    fetch(path, data, onPreParse) => {
+    fetch(path, data, onPreParse){
         /*
         
             maybe need to format path to handle certain scenarios such as:
@@ -124,19 +126,19 @@ class SK_Global_Core {
         return response
     }
 
-    initModules = (rootDir) => {
+    initModules(){
         var fs = require('fs')
-        var categories = fs.readdirSync(rootDir + '/modules/')
+        var categories = fs.readdirSync('/modules/')
 
         for (var i in categories) {
             var catName = categories[i]
 
             if (!sk_api.nativeModules[catName]) sk_api.nativeModules[catName] = {}
 
-            var moduleCategory = fs.readdirSync(rootDir + '/modules/' + catName + '/')
+            var moduleCategory = fs.readdirSync('/modules/' + catName + '/')
             for (var u in moduleCategory) {
                 var modName = moduleCategory[u].split('.')[0]
-                sk_api.nativeModules[catName][modName] = rootDir + '/modules/' + catName + '/' + modName + '.js'
+                sk_api.nativeModules[catName][modName] = '/modules/' + catName + '/' + modName + '.js'
             }
         }
     }

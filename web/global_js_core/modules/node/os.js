@@ -2,7 +2,7 @@ module.exports = {
     EOL: sk_api.staticInfo.machine.EOL,
 
     availableParallelism() {
-        return sk_juce_api.fetch('sk/machine', {func: 'getCPUInfo'}).coreCount
+        return sk_juce_api.fetch('https://sk.module/machine', {func: 'getCPUInfo'}).coreCount
     },
 
     arch() {
@@ -12,7 +12,7 @@ module.exports = {
     constants: '',
 
     cpus() {
-        return sk_juce_api.fetch('sk/machine', {func: 'getCPUInfo'}).cores
+        return sk_juce_api.fetch('https://sk.module/machine', {func: 'getCPUInfo'}).cores
     },
 
     devNull: sk_juce_api.staticInfo.machine.devNull,
@@ -25,19 +25,19 @@ module.exports = {
     /* memory */
 
     meminfo() {
-        return sk_juce_api.fetch('sk/machine', {func: 'getMemoryInfo'})
+        return sk_juce_api.fetch('https://sk.module/machine', {func: 'getMemoryInfo'})
     },
 
     totalmem() {
-        return sk_juce_api.fetch('sk/machine', {func: 'getMemoryInfo'}).physical.total
+        return sk_juce_api.fetch('https://sk.module/machine', {func: 'getMemoryInfo'}).physical.total
     },
 
     freemem() {
-        return sk_juce_api.fetch('sk/machine', {func: 'getMemoryInfo'}).physical.free
+        return sk_juce_api.fetch('https://sk.module/machine', {func: 'getMemoryInfo'}).physical.free
     },
 
     usedmem() {
-        return sk_juce_api.fetch('sk/machine', { func: 'getMemoryInfo' }).physical.used
+        return sk_juce_api.fetch('https://sk.module/machine', { func: 'getMemoryInfo' }).physical.used
     },
 
     
@@ -45,7 +45,7 @@ module.exports = {
 
 
     uptime() {
-        return sk_juce_api.fetch('sk/machine', {func: 'getMachineTime'}).uptime
+        return sk_juce_api.fetch('https://sk.module/machine', {func: 'getMachineTime'}).uptime
     },
 
 
@@ -111,7 +111,7 @@ module.exports = {
     /* network */
 
     networkInterfaces() {
-        return sk_juce_api.fetch('sk/machine', {func: 'getNetworInfo'}).interfaces
+        return sk_juce_api.fetch('https://sk.module/machine', {func: 'getNetworInfo'}).interfaces
     },
 
     
@@ -125,6 +125,6 @@ module.exports = {
 
 
     userInfo(options) {
-        return sk_juce_api.fetch('sk/machine', {func: 'getUserInfo'})
+        return sk_juce_api.fetch('https://sk.module/machine', {func: 'getUserInfo'})
     }
 }

@@ -43,7 +43,7 @@ public:
         {"ico", "image/vnd.microsoft.icon"},
         {"jpeg", "image/jpeg"},
         {"jpg", "image/jpeg"},
-        {"js", "text/javascript"},
+        {"js", "application/javascript"},
         {"json", "application/json"},
         {"md", "text/markdown"},
         {"mid", "audio/midi"},

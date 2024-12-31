@@ -32,22 +32,28 @@
 
 
 //Define which framework is being used
-#define SK_FRAMEWORK Superkraft //Default
+#define SK_FRAMEWORK_SUPERKRAFT 1
+#define SK_FRAMEWORK_iPlug2 2
+#define SK_FRAMEWORK_JUCE 3
 
-#if IPLUG_VERSION
-	#define SK_FRAMEWORK iPlug2
+#define SK_FRAMEWORK SK_FRAMEWORK_SUPERKRAFT //Default
+
+#if defined(IPLUG_VERSION)
+	#define SK_FRAMEWORK SK_FRAMEWORK_iPlug2
 #endif
 
-#if JUCE_MODULE_AVAILABLE_juce_core
-	#define SK_FRAMEWORK JUCE
+#if defined(JUCE_MODULE_AVAILABLE_juce_core)
+	#define SK_FRAMEWORK SK_FRAMEWORK_JUCE
 #endif
 
 
 //Define which mode
 #if defined DEBUG || defined _DEBUG
 	#define SK_MODE_DEBUG
+	#define SK_MODE "runtime"
 #else
 	#define SK_MODE_RELEASE
+	#define SK_MODE "runtime"
 #endif
 
 
@@ -95,3 +101,4 @@
 #else
 	#define SK_CPU_ARCH unknown
 #endif
+

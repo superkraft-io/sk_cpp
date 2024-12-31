@@ -3,7 +3,7 @@ var SK_Module_Scope = (module, require, __dirname, window) => { return (() => { 
 class SK_Module {
     static cache = {}
     constructor() {
-        
+        this.rootDir = 'https://sk.gjc/'
     }
 
     loadFromData(data, path) {
@@ -20,7 +20,7 @@ class SK_Module {
     }
 
     loadFromURL(path) {
-        var data = sk_api.fetch(path)
+        var data = sk_api.fetch(this.rootDir + path)
 
         var trimmedPath = path.replace('', '').split(':')[0].split('/')
         trimmedPath.splice(trimmedPath.length - 1, 1)
@@ -132,15 +132,31 @@ class SK_Module {
     }
 
 
-    
+    static syncOperation(module, operation, data) {
+        var res = sk_api.fetch('https://sk.module/ ' + module, {
+            ...{ operation: operation },
+            ...opt
+        })
+
+        return res
+    }
+
+    static async asyncOperation(module, operation, data) {
+        var res = await window.sk_ipc.ipc.request('sk.module', {
+            ...{
+                module: module,
+                operation: operation
+            }, ...data
+        })
+
+        return res
+    }
 }
 
 SK_Module.cache = {}
 
-sk_api.sk_module = SK_Module
-
-window.require = sk_api.sk_module.require
-window.requireAsync = sk_api.sk_module.requireAsync
+window.require = SK_Module.require
+window.requireAsync = SK_Module.requireAsync
 
 
-export default SK_Module
+//export default SK_Module

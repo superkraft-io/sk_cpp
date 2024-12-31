@@ -1,5 +1,5 @@
-function __ipcSendMsg(data) {
-    if (__sk_ipc_sendMsg) __sk_ipc_sendMsg(data)
+window.__ipcSendMsg = data => {
+    if (window.__sk_ipc_sendMsg) __sk_ipc_sendMsg(data)
     else if (IPlugSendMsg) IPlugSendMsg(data)
     else if (window.__JUCE__) window.__JUCE__.backend.emitEvent(data.cmd, data.payload)
 }
@@ -22,12 +22,12 @@ class SK_IPC {
         //send to backend
         var req = {
             ...{
-            msg_id: msg_id.toString(),
-            type: type,
-            sender: this.sender_id,
-            target: "SK_backend",
-            event_id: event_id,
-            data: data
+                msg_id: msg_id.toString(),
+                type: type,
+                sender: this.sender_id,
+                target: "SK_backend",
+                event_id: event_id,
+                data: data
             },
 
             ...overridePacketInfo
@@ -151,3 +151,5 @@ class SK_IPC {
         if (this.onMessage) this.onMessage(res.data)
     }
 }
+
+window.SK_IPC = SK_IPC;

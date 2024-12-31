@@ -196,6 +196,16 @@ public:
         return data.c_str();
     }
 
+    #if SK_OS == windows
+    operator const LPCWSTR () const {
+        static thread_local std::wstring wideString; // Thread-local to avoid issues with temporary scope
+        int sizeNeeded = MultiByteToWideChar(CP_UTF8, 0, data.c_str(), -1, nullptr, 0);
+        wideString.resize(sizeNeeded - 1); // Exclude null terminator
+        MultiByteToWideChar(CP_UTF8, 0, data.c_str(), -1, &wideString[0], sizeNeeded);
+        return wideString.c_str();
+    }
+    #endif
+
 
     // Operator + for SK_String + SK_String
     SK_String operator+(const char* other) const {

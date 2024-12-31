@@ -56,7 +56,7 @@ public:
 		#ifdef SK_MODE_DEBUG
 			//In DEBUG mode the projectRoot will be set to the root folder of your project.
 			SK_String projectRoot = SK_String(SK_Path_Utils::pathBackwardsUntilNeighbour("superkraft")).replaceAll("\\", "/");
-		#elif
+		#else
 			//In RELEASE mode the projectRoot will be set to the virtual file system called Binary Data File Systtem
 			//When running in RELEASE mode, a pre-script will bundle all the files in "superkraft" and "SK_Project" and SK will access those files from memory instead.
 			SK_String projectRoot = "sk_bdfs:";
@@ -65,9 +65,10 @@ public:
 		SK_String superkraftRoot = projectRoot + "/superkraft";
 
 		add("superkraft", superkraftRoot);
-		add("soft_backend", superkraftRoot + "/cpp/soft_backend/web");
+		add("global_js_core", superkraftRoot + "/sk_cpp/web/global_js_core");
+		add("soft_backend", superkraftRoot + "/sk_cpp/web/soft_backend");
 		add("sk_project", projectRoot + "/sk_project");
-		
+		add("config", paths["sk_project"] + "/config.json");
 		
 		//The paths below will be OS specific
 		add("home", "");
