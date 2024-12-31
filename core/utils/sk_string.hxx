@@ -24,6 +24,42 @@ public:
     SK_String(const std::string& s) : data(s) {}
     SK_String(const SK_String& s) : data(s) {}
 
+    /*
+    SK_String(const std::int8_t n) : data(std::to_string(n)) {}
+    SK_String(const std::uint8_t n) : data(std::to_string(n)) {}
+    SK_String(const std::int16_t n) : data(std::to_string(n)) {}
+    SK_String(const std::uint16_t n) : data(std::to_string(n)) {}
+    SK_String(const std::int32_t n) : data(std::to_string(n)) {}
+    SK_String(const std::uint32_t n) : data(std::to_string(n)) {}
+    SK_String(const std::int64_t n) : data(std::to_string(n)) {}
+    SK_String(const std::uint64_t n) : data(std::to_string(n)) {}
+    SK_String(const long n) : data(std::to_string(n)) {}
+    SK_String(const unsigned long n) : data(std::to_string(n)) {}
+    SK_String(const long long n) : data(std::to_string(n)) {}
+    SK_String(const unsigned long long n) : data(std::to_string(n)) {}
+
+    SK_String(const float& n, const int& precision) {
+        std::ostringstream oss;
+        oss << std::fixed << std::setprecision(precision) << n;
+        data = oss.str();
+    }
+
+    SK_String(const double& n, const int& precision) {
+        std::ostringstream oss;
+        oss << std::fixed << std::setprecision(precision) << n;
+        data = oss.str();
+    }
+
+    SK_String(const long double& n, const int& precision) {
+        std::ostringstream oss;
+        oss << std::fixed << std::setprecision(precision) << n;
+        data = oss.str();
+    }
+    */
+
+
+
+
     // Method to get the character at a specified index (charAt)
     char charAt(size_t index) const {
         if (index >= data.length()) throw std::out_of_range("Index out of range");
@@ -192,19 +228,27 @@ public:
     }
 
     // Method to get the raw string
+    operator const std::filesystem::path () const {
+        return data;
+    }
+
+    #if SK_OS == windows
+        operator const LPCWSTR () const {
+            static thread_local std::wstring wideString; // Thread-local to avoid issues with temporary scope
+            int sizeNeeded = MultiByteToWideChar(CP_UTF8, 0, data.c_str(), -1, nullptr, 0);
+            wideString.resize(sizeNeeded - 1); // Exclude null terminator
+            MultiByteToWideChar(CP_UTF8, 0, data.c_str(), -1, &wideString[0], sizeNeeded);
+            return wideString.c_str();
+        }
+    #endif
+
+    // Method to get the raw string
     explicit operator const char* () const {
         return data.c_str();
     }
 
-    #if SK_OS == windows
-    operator const LPCWSTR () const {
-        static thread_local std::wstring wideString; // Thread-local to avoid issues with temporary scope
-        int sizeNeeded = MultiByteToWideChar(CP_UTF8, 0, data.c_str(), -1, nullptr, 0);
-        wideString.resize(sizeNeeded - 1); // Exclude null terminator
-        MultiByteToWideChar(CP_UTF8, 0, data.c_str(), -1, &wideString[0], sizeNeeded);
-        return wideString.c_str();
-    }
-    #endif
+
+
 
 
     // Operator + for SK_String + SK_String

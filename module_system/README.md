@@ -1,9 +1,14 @@
-﻿# JavaScript Modules
-There are a few modules available to use in the soft backend and your frontend views.
+﻿# Superkraft Module System
+
+The SK Module System is a a NodeJS-like module system
+
+There are a few modules available to use in your soft backend and your frontend views.
 
 
 ## SK Core Modules
 The modules in the `sk` folder are modules developed by the Superkraft team with certain specific features.
+
+These modules can me imported/required with or without the `sk:` prefix, e.g `sk:application` or `application`.
 
 | Name       | Description       |        |
 |----------------|----------------|----------------|
@@ -14,6 +19,8 @@ The modules in the `sk` folder are modules developed by the Superkraft team with
 
 ## Node.js Core Modules
 The modules in the `node` folder reflect most if not all features of the native NodeJS modules.
+
+These modules can me imported/required with or without the `node:` prefix, e.g `node:fs` or `fs`.
 
 | Module            | Description                                                                 |   |
 |--------------------|-----------------------------------------------------------------------------|---|
@@ -66,8 +73,28 @@ The modules in the `node` folder reflect most if not all features of the native 
 ## NPM Modules
 The modules in the `npm` folder emulate a few specific NPM modules.
 
+
 | Name       | Description       | Implementation       |
 |----------------|----------------|----------------|
 | `electron-js`   | ElectronJS emulation module   |  🟠 Partial    |
 | `fs-extra`   | An extension of the `fs` module   | 🟠 Partial   |
 
+
+#How to use
+
+You can `require` or `import` any of the available models the same way you would in NodeJS.
+
+For example, if you want to `require` the `fs` module, you simply do the following in any of your frontend code:
+```javascript
+const fs = require(`fs`)
+
+const data_sync = fs.readFileSync("c:/myFile.txt");
+
+const data_async = await fs.promises.readFile("c:/myFile.txt");
+```
+
+
+##Important to know
+
+- NPM modules are not expected to work, but some may actually work
+- Our module system is not a 1:1 implementation of the NodeJS module system, so don't expect it to work perfectly
