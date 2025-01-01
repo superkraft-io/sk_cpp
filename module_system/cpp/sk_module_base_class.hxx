@@ -1,14 +1,17 @@
 #pragma once
 
-#include "map"
+#include "unordered_map"
 #include "../../core/sk_common.hxx"
+#include "../../core/utils/sk_string.hxx"
 
 
-using SK_Module_Base_Callback = std::function<void(SK_String& data)>;
+using SK_Module_Base_Callback = std::function<void(const nlohmann::json& data)>;
 
 class SK_Module_Base_Class {
 public:
-    SK_Module_Base_Class::SK_Module_Base_Class();
-    
-    std::map<SK_String, SK_Module_Base_Callback> operations;
+    std::unordered_map<std::string, SK_Module_Base_Callback> operations;
+
+    void addOperation(const SK_String& name, const SK_Module_Base_Callback& cb) {
+        operations[name] = cb;
+    }
 };

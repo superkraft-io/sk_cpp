@@ -9,7 +9,7 @@
 #include "../../utils/sk_str_utils.hxx"
 #include "../../utils/sk_web_utils.hxx"
 #include "../../utils/sk_file.hxx"
-
+//#include "../../../module_system/sk_module_system.hxx"
 
 
 using namespace SK;
@@ -259,6 +259,9 @@ public:
 };
 
 
+
+
+
 class SK_WebViewResource_Response {
 public:
     wil::com_ptr<ICoreWebView2Environment> webviewEnvironment;
@@ -320,9 +323,9 @@ public:
     bool file(SK_String path, SK_String mimeType = "auto") {
         //DBGMSG(path.c_str());
 
-        
+
         SK_File file;
-        if (file.loadFromDisk(path.replaceAll("\\", "/").c_str())){
+        if (file.loadFromDisk(path.replaceAll("\\", "/").c_str())) {
             headers["Content-Type"] = (mimeType == "auto" ? file.mimeType : mimeType);
             data = std::vector<BYTE>(file.data.begin(), file.data.end());
             setAsOK();
@@ -330,7 +333,7 @@ public:
         }
 
         error(); //something went wrong reading the file so we return a 404
-        
+
         return false;
     }
 
@@ -399,6 +402,7 @@ public:
 };
 
 
+
 using SK_WebViewResourceRequest_Callback = std::function<void(SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith)>;
 
 class SK_WebViewResourceHandler_Route {
@@ -461,6 +465,7 @@ public:
 
 class SK_WebViewResourceHandler {
 public:
+    //SK_Module_System* modsys;
 
     SK_WebViewResourceHandler_RouteMngr routes;
 
@@ -486,14 +491,28 @@ public:
             #endif
         });
 
-        routes.on("https://sk.gjc", [&](SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith) {
+        routes.on("https://sk.modsys", [&](SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith) {
             int x = 0;
             #if defined SK_MODE_DEBUG
-                SK_String filePath = SK::SK_Path_Utils::paths["global_js_core"] + request.path;
+                SK_String filePath = SK::SK_Path_Utils::paths["module_system"] + request.path;
                 respondWith.file(filePath);
             #else
 
             #endif
+        });
+
+        routes.on("https://sk.modop", [&](SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith) {
+            SK_String data = request.path.substring(2, request.path.length()).fromBase64();
+            nlohmann::json payload = nlohmann::json::parse(data.data);
+
+            /*modsys->performOperation(
+                payload["module"].get<std::string>(),
+                payload["operation"].get<std::string>(),
+                payload["payload"],
+                respondWith
+            );*/
+
+            int x = 0;
         });
     }
 

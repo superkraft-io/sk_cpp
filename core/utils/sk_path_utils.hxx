@@ -66,6 +66,7 @@ public:
 
 		add("superkraft", superkraftRoot);
 		add("global_js_core", superkraftRoot + "/sk_cpp/web/global_js_core");
+		add("module_system", superkraftRoot + "/sk_cpp/module_system/web");
 		add("soft_backend", superkraftRoot + "/sk_cpp/web/soft_backend");
 		add("sk_project", projectRoot + "/sk_project");
 		add("config", paths["sk_project"] + "/config.json");

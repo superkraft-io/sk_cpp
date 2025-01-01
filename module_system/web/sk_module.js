@@ -3,7 +3,7 @@ var SK_Module_Scope = (module, require, __dirname, window) => { return (() => { 
 class SK_Module {
     static cache = {}
     constructor() {
-        this.rootDir = 'https://sk.gjc/'
+        this.rootDir = 'https://sk.modsys'
     }
 
     loadFromData(data, path) {
@@ -133,20 +133,20 @@ class SK_Module {
 
 
     static syncOperation(module, operation, data) {
-        var res = sk_api.fetch('https://sk.module/ ' + module, {
-            ...{ operation: operation },
-            ...opt
+        var res = sk_api.fetch('https://sk.modop/', {
+            module: module,
+            operation: operation,
+            payload: data
         })
 
         return res
     }
 
     static async asyncOperation(module, operation, data) {
-        var res = await window.sk_ipc.ipc.request('sk.module', {
-            ...{
-                module: module,
-                operation: operation
-            }, ...data
+        var res = await window.sk_ipc.ipc.request('sk.modop', {
+            module: module,
+            operation: operation,
+            payload: data
         })
 
         return res

@@ -21,13 +21,16 @@
 #include <cstdio>
 #include <filesystem>
 
+
 namespace fs = std::filesystem;
 
 
 
-SK_FS::SK_FS(SK_VirtualBackend *_vbe) {
-    vbe = _vbe;
-}
+void SK_Module_fs::access(const nlohmann::json& payload) {
+    int x = 0;
+};
+
+/*
 
 String SK_FS::getProjectPath() {
     auto start = File::getSpecialLocation(File::currentExecutableFile);
@@ -74,28 +77,29 @@ bool SK_FS::isAbsolutePath(String path){
     return exists;
     #endif
 }
+*/
 
-void SK_FS::handle_IPC_Msg(String msgID, DynamicObject *obj, String& responseData) {
+void SK_FS::handleOperation(const SK_String& operation, const nlohmann::json& payload) {
     var info = obj->getProperty("data");
     
 
-    String operation = info.getProperty("operation", "");
-    String path = info.getProperty("path", "");
+    SK_String path = payload["path"]
 
     if (path.substring(0, 7) == "sk_vfs/") {
-        vbe->sk_c_api->sk->vfs->handle_IPC_Msg(msgID, obj, responseData);
+        //vbe->sk_c_api->sk->vfs->handle_IPC_Msg(msgID, obj, responseData);
         return;
     }
 
-    if (vbe->mode != "debug") {
-        vbe->sk_c_api->sk->bdfs->handle_IPC_Msg(msgID, obj, responseData);
-        return;
-    }
-
-    String data = info.getProperty("data", "");
-
+    //!!! IMPORTANT !!!! If in RELEASE mode, refer to BDFS and return
     
-    String fullPath = path;
+    #ifdef SK_MODE_RELEASE
+        if (vbe->mode != "debug") {
+            vbe->sk_c_api->sk->bdfs->handle_IPC_Msg(msgID, obj, responseData);
+            return;
+        }
+    #endif
+    
+        SK_String fullPath = path;
 
     //check if file exists using path as-is. If it does exist, then most likely the path is n absolute path, se we do not prepend project path.
     /*if (!fs::exists(path.toStdString())) {
@@ -104,22 +108,24 @@ void SK_FS::handle_IPC_Msg(String msgID, DynamicObject *obj, String& responseDat
         }
     }*/
 
-    if (!isAbsolutePath(path)) {
+    /*if (!isAbsolutePath(path)) {
         if (operation != "mkdir") {
             fullPath = SK_FS::getProjectPath() + "/assets" + path;
         }
-    }
+    }*/
 
-    if (operation == "access") access(msgID, fullPath, responseData);
-    else if (operation == "stat") _stat(msgID, fullPath, responseData);
-    else if (operation == "writeFile") writeFile(msgID, fullPath, data, responseData);
-    else if (operation == "readFile") readFile(msgID, fullPath, responseData);
-    else if (operation == "readdir") readdir(msgID, fullPath, responseData);
-    else if (operation == "unlink") unlink(msgID, fullPath, responseData);
-    else if (operation == "mkdir") mkdir(msgID, fullPath, responseData);
+    /*
+         if (operation == "access"   ) access(fullPath, respondWith);
+    else if (operation == "stat"     ) _stat(fullPath, respondWith);
+    else if (operation == "writeFile") writeFile(fullPath, data, respondWith);
+    else if (operation == "readFile" ) readFile(fullPath, respondWith);
+    else if (operation == "readdir"  ) readdir(fullPath, respondWith);
+    else if (operation == "unlink"   ) unlink(fullPath, respondWith);
+    else if (operation == "mkdir"    ) mkdir(fullPath, respondWith);
+    */
 };
 
-
+/*
 void SK_FS::access(String msgID, String path, String& responseData) {
     File file(path);
     responseData = "{\"access\":" + String((file.exists() ? "true" : "false")) + "}";
@@ -210,13 +216,13 @@ void SK_FS::_stat(String msgID, String path, String& responseData) {
                           << ((fileStat.st_mode & S_IXOTH) ? "x" : "-")
                           << std::endl;
             */
-        
+        /*
             fileInfo.atime = std::ctime(&fileStat.st_atime);
             fileInfo.mtime = std::ctime(&fileStat.st_mtime);
             fileInfo.ctime = std::ctime(&fileStat.st_ctime);
         #endif
         
-
+        /*
         statInfo = SSC::JSON::Object(SSC::JSON::Object::Entries{
             {"type", "file"},
             {"dev", fileInfo.volumeSerialNumber},
@@ -338,3 +344,4 @@ void SK_FS::mkdir(String msgID, String path, String& responseData) {
         responseData = SK_IPC::Error(e.what());
     }
 }
+*/

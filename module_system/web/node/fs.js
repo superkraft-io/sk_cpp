@@ -1,36 +1,36 @@
-var __fs = {
+class SK_Module_fs extends SK_Module_Root {
     accessSync(path) {
-        var res = SK_Module.syncOperation('node:fs', 'access', { path: path })
+        var res = this.sync('access', { path: path })
         return res
-    },
+    }
 
     statSync(path) {
         try {
-            var info = SK_Module.syncOperation('node:fs', 'stat', { path: path })
+            var info = this.sync('stat', { path: path })
             info.isDirectory = () => { return info.type === 'dir' }
             return info
         } catch (err) {
             throw err
         }
-    },
+    }
 
     writeFileSync(path, data) {
-        return SK_Module.syncOperation('node:fs', 'writeFile', { path: path, data: data })
-    },
+        return this.sync('writeFile', { path: path, data: data })
+    }
 
     readFileSync(path) {
         try {
-            var res = SK_Module.syncOperation('node:fs', 'readFile', { path: path })
+            var res = this.sync('readFile', { path: path })
 
             return atob(res)
         } catch (err) {
             throw err
         }
-    },
+    }
 
     readdirSync(path, asObj) {
         try {
-            var res = SK_Module.syncOperation('node:fs', 'readdir', { path: path })
+            var res = this.sync('readdir', { path: path })
 
             var list = []
 
@@ -42,16 +42,16 @@ var __fs = {
         } catch (err) {
             throw err
         }
-    },
+    }
 
     unlinkSync(path) {
         try {
-            var res = SK_Module.syncOperation('node:fs', 'unlink', { path: path })
+            var res = this.sync('unlink', { path: path })
             if (res.error) throw res.err
         } catch (err) {
             throw err
         }
-    },
+    }
 
     rmSync(path, options = {}){
         var defOpts = {
@@ -111,7 +111,7 @@ var __fs = {
 
         if (__fs.statSync(path).isDirectory()) removeDirectoryRecursive(path)
         else __fs.unlinkSync(path)
-    },
+    }
 
     mkdirSync(path, options) {
         var defOpts = {
@@ -123,102 +123,104 @@ var __fs = {
 
 
         try {
-            var res = SK_Module.syncOperation('node:fs', 'mkdir', { ...{ path: path }, ...defOpts })
+            var res = this.sync('mkdir', { ...{ path: path }, ...defOpts })
             if (res.error) throw res.err
         } catch (err) {
             throw err
         }
-    },
+    }
 
 
-    promises: {
-        async access(path) {
-            var res = await SK_Module.asyncOperation('node:fs', 'access', { path: path })
-            return res
-        },
+    get promises() {
+        return {
+            async access(path) {
+                var res = await this.async('access', { path: path })
+                return res
+            },
 
-        stat(path) {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    var info = SK_Module.asyncOperation('node:fs', 'stat', { path: path })
-                    info.isDirectory = () => { return info.type === 'dir' }
-                    resolve(info)
-                } catch (err) {
-                    reject(err)
-                }
-            })
-        },
-
-        writeFile(path, data) {
-            return __fs_req_async('writeFile', { path: path, data: data })
-        },
-
-        readFile(path) {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    var res = SK_Module.asyncOperation('node:fs', 'readFile', { path: path })
-
-                    resolve(atob(res))
-                } catch (err) {
-                    reject(err)
-                }
-            })
-        },
-
-        readdir(path, asObj) {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    var res = SK_Module.asyncOperation('node:fs', 'readdir', { path: path })
-
-                    var list = []
-
-                    for (var i = 0; i < res.length; i++) {
-                        list.push((!asObj ? res[i].name : res[i]))
+            stat(path) {
+                return new Promise(async (resolve, reject) => {
+                    try {
+                        var info = this.async('stat', { path: path })
+                        info.isDirectory = () => { return info.type === 'dir' }
+                        resolve(info)
+                    } catch (err) {
+                        reject(err)
                     }
+                })
+            },
 
-                    resolve(list)
-                } catch (err) {
-                    reject(err)
-                }
-            })
-        },
+            writeFile(path, data) {
+                return __fs_req_async('writeFile', { path: path, data: data })
+            },
 
-        mkdir() {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    var res =  SK_Module.syncOperation('node:fs', 'mkdir', { ...{ path: path }, ...defOpts })
-                    if (res.error) return reject(res.err)
-                    resolve()
-                } catch (err) {
-                    reject(err)
-                }
-            })
-        },
+            readFile(path) {
+                return new Promise(async (resolve, reject) => {
+                    try {
+                        var res = this.async('readFile', { path: path })
 
-        rm(path, options) {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    var res = __fs.rm(path, options)
-                    if (res.error) return reject(res.err)
-                    resolve()
-                } catch (err) {
-                    reject(err)
-                }
-            })
-        },
+                        resolve(atob(res))
+                    } catch (err) {
+                        reject(err)
+                    }
+                })
+            },
 
-        mkdir(path, options) {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    var res = __fs.mkdir(path, options)
-                    if (res.error) return reject(res.err)
-                    resolve()
-                } catch (err) {
-                    reject(err)
-                }
-            })
-        },
+            readdir(path, asObj) {
+                return new Promise(async (resolve, reject) => {
+                    try {
+                        var res = this.async('readdir', { path: path })
+
+                        var list = []
+
+                        for (var i = 0; i < res.length; i++) {
+                            list.push((!asObj ? res[i].name : res[i]))
+                        }
+
+                        resolve(list)
+                    } catch (err) {
+                        reject(err)
+                    }
+                })
+            },
+
+            mkdir() {
+                return new Promise(async (resolve, reject) => {
+                    try {
+                        var res = this.sync('mkdir', { ...{ path: path }, ...defOpts })
+                        if (res.error) return reject(res.err)
+                        resolve()
+                    } catch (err) {
+                        reject(err)
+                    }
+                })
+            },
+
+            rm(path, options) {
+                return new Promise(async (resolve, reject) => {
+                    try {
+                        var res = __fs.rm(path, options)
+                        if (res.error) return reject(res.err)
+                        resolve()
+                    } catch (err) {
+                        reject(err)
+                    }
+                })
+            },
+
+            mkdir(path, options) {
+                return new Promise(async (resolve, reject) => {
+                    try {
+                        var res = __fs.mkdir(path, options)
+                        if (res.error) return reject(res.err)
+                        resolve()
+                    } catch (err) {
+                        reject(err)
+                    }
+                })
+            },
+        }
     }
 }
 
-module.exports = __fs
+module.exports = new SK_Module_fs('node:fs')

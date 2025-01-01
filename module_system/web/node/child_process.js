@@ -1,12 +1,13 @@
-module.exports = {
+class SK_Module_child_process extends SK_Module_Root {
+
     exec(command, options, callback){
-        this.sk.ipc.request('node:child_process', { func: 'exec', options: options }).then(res => {
+        this.async('exec', {options: options }).then(res => {
             callback(res)
         })
     },
 
     execFile(file, args, options, callback){
-        this.sk.ipc.request('node:child_process', { func: 'execFile', args: args, options: options }).then(res => {
+        this.async('execFile', {args: args, options: options }).then(res => {
             callback(res)
         })
     },
@@ -16,8 +17,10 @@ module.exports = {
     },
 
     spawn(command, args, options){
-        this.sk.ipc.request('node:child_process', { func: 'spawn', args: args, options: options }).then(res => {
+        this.async('spawn', {args: args, options: options }).then(res => {
             
         })
     }
 }
+
+module.exports = new SK_Module_Process('node:child_process')

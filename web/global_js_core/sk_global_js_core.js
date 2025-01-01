@@ -73,7 +73,7 @@ class SK_Global_Core {
 
 
         this.nativeModules = {
-            node: { fs: __dirname + '/modules/node/fs.js' }
+            node: { fs: __dirname + '/node/fs.js' }
         }
 
 
@@ -128,17 +128,17 @@ class SK_Global_Core {
 
     initModules(){
         var fs = require('fs')
-        var categories = fs.readdirSync('/modules/')
+        var categories = fs.readdirSync('/')
 
         for (var i in categories) {
             var catName = categories[i]
 
             if (!sk_api.nativeModules[catName]) sk_api.nativeModules[catName] = {}
 
-            var moduleCategory = fs.readdirSync('/modules/' + catName + '/')
+            var moduleCategory = fs.readdirSync('/' + catName + '/')
             for (var u in moduleCategory) {
                 var modName = moduleCategory[u].split('.')[0]
-                sk_api.nativeModules[catName][modName] = '/modules/' + catName + '/' + modName + '.js'
+                sk_api.nativeModules[catName][modName] = catName + '/' + modName + '.js'
             }
         }
     }

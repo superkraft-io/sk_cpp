@@ -12,7 +12,7 @@
 
 #include "sk_webview_initializer/sk_webview_initializer.hxx"
 #include "sk_webview_resourceHandler/sk_webview_resourceHandler.hxx"
-
+//#include "../module_system/sk_module_system.hxx"
 
 BEGIN_SK_NAMESPACE
 
@@ -25,6 +25,7 @@ public:
 	SK_WebViewResourceHandler* wvrh;
 	SK_IPC ipc;
 	SK_Window_Mngr wndMngr;
+	//SK_Module_System modsys;
 
 	Superkraft::Superkraft() {
 		SK_Path_Utils::init();
@@ -35,6 +36,7 @@ public:
 
 		SK_Machine::init();
 		wvrh = new SK_WebViewResourceHandler();
+		//wvrh->modsys = &modsys;
 	}
 
 	Superkraft::~Superkraft() {

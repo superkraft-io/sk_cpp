@@ -12,6 +12,7 @@
 #include "json.hpp"
 
 #include "../../sk_common.hxx"
+#include "../../superkraft.hxx"
 #include "../../utils/sk_str_utils.hxx"
 #include "../../utils/sk_web_utils.hxx"
 
@@ -46,7 +47,8 @@ public:
 
         SK_String payload = generateFromFiles(std::vector<SK_String>{
             SK_Path_Utils::paths["global_js_core"] + "/sk_ipc.js",
-            SK_Path_Utils::paths["global_js_core"] + "/module.js",
+            SK_Path_Utils::paths["module_system"] + "/sk_module.js",
+            SK_Path_Utils::paths["module_system"] + "/sk_module_root.js",
             SK_Path_Utils::paths["global_js_core"] + "/sk_global_js_core.js"
         })
             .replace("'<sk_static_info>'", getStaticInfo());
@@ -86,17 +88,20 @@ public:
         SK_String appName = sk_config["product_info"]["name"];
         SK_String appVersion = sk_config["product_info"]["version"];
 
+        SK_String argv0 = "";
+        //if (SK_Superkraft_App::app_argv.length() > 0) argv0 = SK_Superkraft_App::app_argv[0]; //ignoring this for now
+
         nlohmann::json res {
-            {"argv"   ,  "<argv>"},
-            {"argv0"  , ""},
-            {"mode"   , "debug"},
-            {"name"   , SK_MODE},
-            {"version", "0.0"}
+            {"argv"   , "<argv>"},
+            {"argv0"  , argv0},
+            {"mode"   , SK_MODE},
+            {"name"   , appName},
+            {"version", appVersion}
         };
 
         SK_String output = res.dump();
 
-        SK_String args = "[\"\"]";
+        SK_String args = "";//"[\"" + SK_String(sk_app_argv) + "\"]";
         if (args == "[\"\"]") {
             args = "[]";
         }

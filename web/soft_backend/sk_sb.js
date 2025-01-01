@@ -18,7 +18,7 @@ function sleep(delay = 1000) {
 var start_app = async () => {
     window.global = window
 
-    await import('https://sk.gjc/modules/node/path.js')
+    await import('https://sk.modsys/node/path.js')
     sk_api.initModules()
 
 
