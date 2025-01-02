@@ -186,12 +186,16 @@ public:
 
     // Method to replace the first occurrence of a pattern with a replacement (replace)
     SK_String replace(const std::string& pattern, const std::string& replacement) const {
-        std::string result = data;
-        size_t pos = result.find(pattern);
-        if (pos != std::string::npos) {
+        std::string result = data;  // Create a copy of the string data
+        size_t pos = 0;
+
+        // Loop to replace all occurrences of the pattern
+        while ((pos = result.find(pattern, pos)) != std::string::npos) {
             result.replace(pos, pattern.length(), replacement);
+            pos += replacement.length();  // Move past the last replaced part
         }
-        return SK_String(result);
+
+        return SK_String(result);  // Return a new SK_String with the modified resul
     }
 
     // Method to replace all occurrences of a pattern with a replacement (replaceAll)

@@ -20,13 +20,15 @@ public:
 	SK_Module_fs viewMngr;
 
 	void performOperation(const SK_String& module, const SK_String& operation, const nlohmann::json& payload, SK_WebViewResource_Response& respondWith) {
-		     if (module == "machine") machine.handleOperation(operation, payload, respondWith);
+		if (module == "machine") machine.handleOperation(operation, payload, respondWith);
 		else if (module == "application") application.handleOperation(operation, payload, respondWith);
 		else if (module == "fs") fs.handleOperation(operation, payload, respondWith);
 		else if (module == "bdsfs") bdsfs.handleOperation(operation, payload, respondWith);
 		else if (module == "vfs") vfs.handleOperation(operation, payload, respondWith);
 		else if (module == "web") web.handleOperation(operation, payload, respondWith);
 		else if (module == "viewMngr") viewMngr.handleOperation(operation, payload, respondWith);
+
+		else respondWith.error(404, "Module not found");
 	};
 };
 

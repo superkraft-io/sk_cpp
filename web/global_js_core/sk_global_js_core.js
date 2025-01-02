@@ -91,17 +91,6 @@ class SK_Global_Core {
     }
 
     fetch(path, data, onPreParse){
-        /*
-        
-            maybe need to format path to handle certain scenarios such as:
-    
-            ./targetFile.js
-            ./ targetFile       without extension
-            ../                 walk up the path - !!! IMPORTANT !!! walking up a path may not exceed the root of the "assets" folder
-            \                   non-unix path delimiters
-        
-        */
-
         var finalPath = path
         if (data) path += '!' + btoa(JSON.stringify(data))
 
@@ -128,17 +117,22 @@ class SK_Global_Core {
 
     initModules(){
         var fs = require('fs')
-        var categories = fs.readdirSync('/')
+        var categories = fs.readdirSync('sk.mods:/', true)
 
         for (var i in categories) {
-            var catName = categories[i]
+            var category = categories[i]
+
+            if (category.type !== 'dir') continue
+
+            var catName = category.name
 
             if (!sk_api.nativeModules[catName]) sk_api.nativeModules[catName] = {}
 
-            var moduleCategory = fs.readdirSync('/' + catName + '/')
+            var moduleCategory = fs.readdirSync('sk.mods:/' + catName + '/', true)
             for (var u in moduleCategory) {
-                var modName = moduleCategory[u].split('.')[0]
-                sk_api.nativeModules[catName][modName] = catName + '/' + modName + '.js'
+                var module = moduleCategory[u]
+                var modName = module.name.split('.')[0]
+                sk_api.nativeModules[catName][modName] = 'sk.mods:/' + catName + '/' + modName + '.js'
             }
         }
     }

@@ -47,7 +47,7 @@ public:
 
     bool JSON(nlohmann::json json) {
         SK_String resAsString = std::any_cast<nlohmann::json>(json).dump(0);
-        //DBGMSG(resAsString.c_str());
+        if (resAsString == "null") resAsString = "{}";
 
         statusMessage = "";
 

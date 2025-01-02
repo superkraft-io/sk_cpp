@@ -223,4 +223,4 @@ class SK_Module_fs extends SK_Module_Root {
     }
 }
 
-module.exports = new SK_Module_fs('node:fs')
+module.exports = new SK_Module_fs('fs')

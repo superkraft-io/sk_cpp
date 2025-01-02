@@ -44,7 +44,13 @@ public:
         //If the path is not absolute, then make the SK_Project folder the root folder
         if (!SK_File::isPathAbsolute(path)) {
             if (operation != "mkdir") {
-                fullPath = SK_Path_Utils::paths["sk_project"] + path;
+                SK_String targetPrefix = path.substring(0, path.indexOf("/"));
+                if (targetPrefix == "sk.mods:") {
+                    fullPath = SK_Path_Utils::paths["module_system"] + path.replace("sk.mods:", "");
+                }
+                else {
+                    fullPath = SK_Path_Utils::paths["sk_project"] + path;
+                }
             }
         }
 
@@ -92,12 +98,15 @@ public:
 
         nlohmann::json fileList;
 
-        for (int i = 0; i < list.size(); i++) {
-            nlohmann::json file = list[i];
-            fileList.push_back(nlohmann::json{
-                {"type", (file["type"] == "directory" ? "dir" : "file")},
-                {"name", file["name"]}
-            });
+        unsigned int size = list.size();
+        if (size > 1) {
+            for (unsigned int i = 0; i < size; i++) {
+                nlohmann::json file = list[i];
+                fileList.push_back(nlohmann::json{
+                    {"type", file["type"]},
+                    {"name", file["name"]}
+                    });
+            }
         }
 
 

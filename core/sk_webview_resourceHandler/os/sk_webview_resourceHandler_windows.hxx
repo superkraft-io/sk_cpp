@@ -200,33 +200,13 @@ public:
 
         // Extract Headers
         wil::com_ptr<ICoreWebView2HttpRequestHeaders> _headers;
-        if (SUCCEEDED(request->get_Headers(&_headers)))
-        {
+        if (SUCCEEDED(request->get_Headers(&_headers))) {
             headers = ExtractHeadersToJson(_headers.get());
         }
 
         COREWEBVIEW2_WEB_RESOURCE_CONTEXT _resourceContext;
-        if (SUCCEEDED(args->get_ResourceContext(&_resourceContext)))
-        {
+        if (SUCCEEDED(args->get_ResourceContext(&_resourceContext))) {
             resourceContext = resourceContextToString(_resourceContext);
-        }
-
-        // Extract Body
-        wil::com_ptr<IStream> bodyStream;
-        if (SUCCEEDED(request->get_Content(&bodyStream)))
-        {
-            SK_String _body = ReadStream(bodyStream.get());
-            if (_body.length() != 0) {
-                try
-                {
-                    body = nlohmann::json::parse(_body.data);
-                }
-                catch (const nlohmann::json::exception& e)
-                {
-                    std::cerr << "Failed to parse JSON body: " << e.what() << std::endl;
-                    body = _body; // Fallback to raw body
-                }
-            }
         }
     };
 
