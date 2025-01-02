@@ -1,13 +1,13 @@
 class SK_Module_Root {
-    constructor(){
-        this.path = ''
+    constructor(modulePath = ''){
+        this.modulePath = modulePath
     }
 
     sync(operation, payload){
-        return SK_Module.syncOperation(this.path, operation, payload)
+        return SK_Module.syncOperation(this.modulePath, operation, payload)
     }
 
     async(operation, payload){
-        return SK_Module.asyncOperation(this.path, operation, payload)
+        return SK_Module.asyncOperation(this.modulePath, operation, payload)
     }
 }

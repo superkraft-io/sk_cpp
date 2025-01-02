@@ -1,10 +1,17 @@
 #pragma once
 
+#include <iostream>
+#include <fstream>
 #include <filesystem>
+#include <json.hpp>
+#include <chrono>
+#include <ctime>
+#include <bitset>
 
 #include "../sk_common.hxx"
 #include "sk_string.hxx"
 #include "sk_web_utils.hxx"
+#include "sk_array.hxx"
 
 #if SK_OS == windows
 	#include <windows.h>
@@ -17,13 +24,13 @@ BEGIN_SK_NAMESPACE
 
 
 struct SK_File_Time {
-	std::chrono::system_clock::time_point atime_tp;
-	std::chrono::system_clock::time_point mtime_tp;
-	std::chrono::system_clock::time_point ctime_tp;
-
 	uint64_t atime = -1;
 	uint64_t mtime = -1;
 	uint64_t ctime = -1;
+
+	SK_String atime_str;
+	SK_String mtime_str;
+	SK_String ctime_str;
 };
 
 struct SK_File_Info {
@@ -44,7 +51,9 @@ public:
 	SK_String mimeType;
 	nlohmann::json fileInfo;
 
-	
+	static bool isPathAbsolute(const SK_String& path) {
+		return std::filesystem::path(path).is_absolute();
+	}
 
 	bool loadFromDisk(const SK_String& path, bool includeFileInfo = false){
 		if (!exists(path)) return false;
@@ -93,7 +102,88 @@ public:
 		//Save to virtual fileaystem
 	}
 
+	static bool unlink(const SK_String& path) {
+		if (!exists(path)) return true;
+		if (std::filesystem::remove(path)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
+	static bool append(const SK_String& path, const SK_String& data) {
+		if (!exists(path)) return false;
+
+		std::ofstream outFile(path.data, std::ios::app);
+
+		if (outFile.is_open()) {
+			outFile << data;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	static nlohmann::json list(const std::string& path) {
+		if (!std::filesystem::exists(path)) return false;
+
+		nlohmann::json entries;
+
+		try {
+			for (const auto& entry : std::filesystem::directory_iterator(path)) {
+				nlohmann::json fileInfo;
+
+				// Determine file type
+				fileInfo["type"] = "unknown";
+				if (entry.is_directory()) fileInfo["type"] = "dir";
+				else if (entry.is_regular_file()) fileInfo["type"] = "file";
+				else if (entry.is_symlink()) fileInfo["type"] = "symlink";
+
+				// Get the file size if it's a regular file
+				fileInfo["size"] = entry.is_regular_file() ? entry.file_size() : 0;
+
+				// Get the last modified time
+				auto ftime = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
+					entry.last_write_time() - std::filesystem::file_time_type::clock::now() + std::chrono::system_clock::now());
+				std::time_t cftime = std::chrono::system_clock::to_time_t(ftime);
+				fileInfo["last_modified"] = std::asctime(std::localtime(&cftime));
+
+				// Get the permissions and format them
+				std::filesystem::perms permissions = std::filesystem::status(entry).permissions();
+				SK_String permStr;
+
+				// Check and append permissions for owner
+				permStr += (permissions & std::filesystem::perms::owner_read) != std::filesystem::perms::none ? "r" : "-";
+				permStr += (permissions & std::filesystem::perms::owner_write) != std::filesystem::perms::none ? "w" : "-";
+				permStr += (permissions & std::filesystem::perms::owner_exec) != std::filesystem::perms::none ? "x" : "-";
+
+				// Check and append permissions for group
+				permStr += (permissions & std::filesystem::perms::group_read) != std::filesystem::perms::none ? "r" : "-";
+				permStr += (permissions & std::filesystem::perms::group_write) != std::filesystem::perms::none ? "w" : "-";
+				permStr += (permissions & std::filesystem::perms::group_exec) != std::filesystem::perms::none ? "x" : "-";
+
+				// Check and append permissions for others
+				permStr += (permissions & std::filesystem::perms::others_read) != std::filesystem::perms::none ? "r" : "-";
+				permStr += (permissions & std::filesystem::perms::others_write) != std::filesystem::perms::none ? "w" : "-";
+				permStr += (permissions & std::filesystem::perms::others_exec) != std::filesystem::perms::none ? "x" : "-";
+				fileInfo["permissions"] = permStr;
+
+				// Store the entry in the vector
+				fileInfo["name"] = entry.path().filename().string();
+				entries.push_back(fileInfo);
+			}
+
+			//std::sort(entries.begin(), entries.end(), [](const SK_FileEntry& a, const SK_FileEntry& b) {
+			//	return a.name.toLowerCase() < b.name.toLowerCase();  // Compare in lowercase
+			//});
+		}
+		catch (const std::filesystem::filesystem_error& e) {
+			std::cerr << "Error: " << e.what() << '\n';
+		}
+
+		return entries;
+	}
 
 	/**********************/
 	#if SK_OS == windows
@@ -101,11 +191,10 @@ public:
 			ULARGE_INTEGER ull;
 			ull.LowPart = ft.dwLowDateTime;
 			ull.HighPart = ft.dwHighDateTime;
-			return std::chrono::system_clock::time_point(
-				std::chrono::duration_cast<std::chrono::system_clock::duration>(
-					std::chrono::nanoseconds(ull.QuadPart * 100)
-				)
-			);
+			const auto duration = std::chrono::nanoseconds(ull.QuadPart - 116444736000000000LL); // Windows FILETIME offset
+
+			// Correct way to convert nanoseconds to time_point
+			return std::chrono::system_clock::time_point(std::chrono::duration_cast<std::chrono::system_clock::duration>(duration));
 		}
 
 	#elif SK_OS == macos || SK_OS == ios
@@ -127,28 +216,24 @@ public:
 
 		SK_File_Time fileTime;
 
-		#if SK_OS == windows 
-			HANDLE file = CreateFileA(path.data.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-			if (file == INVALID_HANDLE_VALUE) {
+		#if SK_OS == windows
+			FILETIME creationTime, lastAccessTime, lastWriteTime;
+
+			WIN32_FILE_ATTRIBUTE_DATA fileData;
+			if (GetFileAttributesExA(path.data.c_str(), GetFileExInfoStandard, &fileData)) {
+
+				fileTime.ctime_str = SK_DateTime::formatFileTime(fileData.ftCreationTime);
+				fileTime.atime_str = SK_DateTime::formatFileTime(fileData.ftLastAccessTime);
+				fileTime.mtime_str = SK_DateTime::formatFileTime(fileData.ftLastWriteTime);
+
+				fileTime.ctime = timePointToUint64(fileTimeToChrono(fileData.ftCreationTime));
+				fileTime.atime = timePointToUint64(fileTimeToChrono(fileData.ftLastAccessTime));
+				fileTime.mtime = timePointToUint64(fileTimeToChrono(fileData.ftLastWriteTime));
+			}
+			else {
 				__debugbreak();
-			} else {
-			
-
-				FILETIME creationTime, lastAccessTime, lastWriteTime;
-				if (GetFileTime(file, &creationTime, &lastAccessTime, &lastWriteTime)) {
-					fileTime.ctime_tp = fileTimeToChrono(creationTime);
-					fileTime.atime_tp = fileTimeToChrono(lastAccessTime);
-					fileTime.mtime_tp = fileTimeToChrono(lastWriteTime);
-
-					fileTime.ctime = timePointToUint64(fileTime.ctime_tp);
-					fileTime.atime = timePointToUint64(fileTime.atime_tp);
-					fileTime.mtime = timePointToUint64(fileTime.mtime_tp);
-				} else {
-					__debugbreak();
-				}
 			}
 
-			CloseHandle(file);
 		#elif SK_OS == macos || SK_OS == ios
 			struct stat fileStat;
 			if (stat(filePath.c_str(), &fileStat) == 0) {
@@ -169,6 +254,10 @@ public:
 				std::cerr << "Error: Cannot get file stats." << std::endl;
 			}
 		#endif
+
+		_fileTime->ctime_str = fileTime.ctime_str;
+		_fileTime->atime_str = fileTime.atime_str;
+		_fileTime->mtime_str = fileTime.mtime_str;
 
 		_fileTime->atime = fileTime.atime;
 		_fileTime->ctime = fileTime.ctime;
@@ -205,7 +294,7 @@ public:
 
 
 		if (isDirectory(path)) {
-			//uint64_t size = static_cast<uint64_t>(std::filesystem::file_size(std::filesystem::path(path)));
+			uint64_t size = static_cast<uint64_t>(std::filesystem::file_size(std::filesystem::path(path)));
 			statInfo = nlohmann::json {
 				{"type"			, "dir"},
 				{"dev"			, "" },
@@ -216,16 +305,16 @@ public:
 				{"rdev"			, 0  },
 				{"blksize"		, -1 },
 				{"ino"			, 0  },
-				{"size"			, "" },//size },
+				{"size"			, size },
 				{"blocks"		, -1 },
-				{"atimeMs"		, "" },//fileTime.atime },
-				{"mtimeMs"		, "" },//fileTime.mtime },
-				{"ctimeMs"		, "" },//fileTime.ctime },
-				{"birthtimeMs"	, "" },//SK_String(fileTime.ctime) },
-				{"atime"		, "" },//SK_DateTime::formatTime(fileTime.atime_tp, "%Y-%m-%dT%H:%M:%S.000Z") },
-				{"mtime"		, "" },//SK_DateTime::formatTime(fileTime.mtime_tp, "%Y-%m-%dT%H:%M:%S.000Z") },
-				{"ctime"		, "" },//SK_DateTime::formatTime(fileTime.ctime_tp, "%Y-%m-%dT%H:%M:%S.000Z") },
-				{"birthtime"	, "" }//SK_DateTime::formatTime(fileTime.ctime_tp, "%Y-%m-%dT%H:%M:%S.000Z") }
+				{"atimeMs"		, fileTime.atime },
+				{"mtimeMs"		, fileTime.mtime },
+				{"ctimeMs"		, fileTime.ctime },
+				{"birthtimeMs"	, fileTime.ctime },
+				{"atime"		, fileTime.atime_str },
+				{"mtime"		, fileTime.mtime_str },
+				{"ctime"		, fileTime.ctime_str },
+				{"birthtime"	, fileTime.ctime_str }
 			};
 		} else {
 #			if SK_OS == windows
@@ -292,16 +381,16 @@ public:
 				{"rdev"			, 0  },
 				{"blksize"		, -1 },
 				{"ino"			, fileInfo.ino },
-				{"size"			, "" },//std::filesystem::file_size(std::filesystem::path(path)) },
+				{"size"			, std::filesystem::file_size(std::filesystem::path(path)) },
 				{"blocks"		, -1 },
-				{"atimeMs"		, "" },//fileTime.atime },
-				{"mtimeMs"		, "" },//fileTime.mtime },
-				{"ctimeMs"		, "" },//fileTime.ctime },
-				{"birthtimeMs"	, "" },//SK_String(fileTime.ctime) },
-				{"atime"		, "" },//SK_DateTime::formatTime(fileTime.atime_tp, "%Y-%m-%dT%H:%M:%S.000Z") },
-				{"mtime"		, "" },//SK_DateTime::formatTime(fileTime.mtime_tp, "%Y-%m-%dT%H:%M:%S.000Z") },
-				{"ctime"		, "" },//SK_DateTime::formatTime(fileTime.ctime_tp, "%Y-%m-%dT%H:%M:%S.000Z") },
-				{"birthtime"	, "" },//SK_DateTime::formatTime(fileTime.ctime_tp, "%Y-%m-%dT%H:%M:%S.000Z") }
+				{"atimeMs"		, fileTime.atime },
+				{"mtimeMs"		, fileTime.mtime },
+				{"ctimeMs"		, fileTime.ctime },
+				{"birthtimeMs"	, fileTime.ctime },
+				{"atime"		, fileTime.atime_str },
+				{"mtime"		, fileTime.mtime_str },
+				{"ctime"		, fileTime.ctime_str },
+				{"birthtime"	, fileTime.ctime_str }
 			};
 		}
 

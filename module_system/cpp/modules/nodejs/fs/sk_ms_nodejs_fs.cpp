@@ -8,128 +8,20 @@
     #include <sys/stat.h>
     #include <ctime>
     #include <unistd.h>
-
-    struct FileComparator {
-        static int compareElements(const File& file1, const File& file2) {
-            // Compare the filenames in a case-insensitive manner
-            return file1.getFileName().compareIgnoreCase(file2.getFileName());
-        }
-    };
 #endif
 
 #include <iostream>
 #include <cstdio>
 #include <filesystem>
 
+#include "../../../../../core/utils/sk_string.hxx"
+#include "json.hpp"
 
 namespace fs = std::filesystem;
 
 
 
-void SK_Module_fs::access(const nlohmann::json& payload) {
-    int x = 0;
-};
-
-/*
-
-String SK_FS::getProjectPath() {
-    auto start = File::getSpecialLocation(File::currentExecutableFile);
-
-    File stoppedFile;
-
-    while (start.exists() && !start.isRoot()) {
-        
-
-        
-        stoppedFile = start.getSiblingFile("assets");
-
-        String path = stoppedFile.getFullPathName();
-
-        if (stoppedFile.isDirectory()) {
-            stoppedFile = stoppedFile;
-            break;
-        }
-
-        start = start.getParentDirectory();
-    }
-
-    return stoppedFile.getParentDirectory().getFullPathName().replace("\\", "/");
-}
-
-bool SK_FS::pathExists(String path){
-    File file(path);
-    return file.exists();
-}
-
-bool SK_FS::isAbsolutePath(String path){
-    #if defined(_WIN32)
-    return File::isAbsolutePath(path);
-    #else
-    String _path = path;
-    if (!_path.startsWithChar('/')) _path = "/" + _path;
-    int secondSlashIndex = _path.indexOf(1, "/");
-
-    if (secondSlashIndex == -1) int x = 0;
-    else _path = _path.substring(0, secondSlashIndex);
-    
-    bool exists = pathExists(_path);
-    
-    return exists;
-    #endif
-}
-*/
-
-void SK_FS::handleOperation(const SK_String& operation, const nlohmann::json& payload) {
-    var info = obj->getProperty("data");
-    
-
-    SK_String path = payload["path"]
-
-    if (path.substring(0, 7) == "sk_vfs/") {
-        //vbe->sk_c_api->sk->vfs->handle_IPC_Msg(msgID, obj, responseData);
-        return;
-    }
-
-    //!!! IMPORTANT !!!! If in RELEASE mode, refer to BDFS and return
-    
-    #ifdef SK_MODE_RELEASE
-        if (vbe->mode != "debug") {
-            vbe->sk_c_api->sk->bdfs->handle_IPC_Msg(msgID, obj, responseData);
-            return;
-        }
-    #endif
-    
-        SK_String fullPath = path;
-
-    //check if file exists using path as-is. If it does exist, then most likely the path is n absolute path, se we do not prepend project path.
-    /*if (!fs::exists(path.toStdString())) {
-        if (operation != "mkdir") {
-            fullPath = SK_FS::getProjectPath() + "/assets" + path;
-        }
-    }*/
-
-    /*if (!isAbsolutePath(path)) {
-        if (operation != "mkdir") {
-            fullPath = SK_FS::getProjectPath() + "/assets" + path;
-        }
-    }*/
-
-    /*
-         if (operation == "access"   ) access(fullPath, respondWith);
-    else if (operation == "stat"     ) _stat(fullPath, respondWith);
-    else if (operation == "writeFile") writeFile(fullPath, data, respondWith);
-    else if (operation == "readFile" ) readFile(fullPath, respondWith);
-    else if (operation == "readdir"  ) readdir(fullPath, respondWith);
-    else if (operation == "unlink"   ) unlink(fullPath, respondWith);
-    else if (operation == "mkdir"    ) mkdir(fullPath, respondWith);
-    */
-};
-
-/*
-void SK_FS::access(String msgID, String path, String& responseData) {
-    File file(path);
-    responseData = "{\"access\":" + String((file.exists() ? "true" : "false")) + "}";
-}
+void SK_FS::access(String msgID, String path, String& responseData)
 
 void SK_FS::_stat(String msgID, String path, String& responseData) {
     File file(path);
@@ -255,30 +147,9 @@ void SK_FS::_stat(String msgID, String path, String& responseData) {
     //vbe->sk_c_api->ipc->respondToCallback(msgID, juce::String(juce::CharPointer_UTF8(tempstr.c_str())).toStdString());
 }
 
-void SK_FS::writeFile(String msgID, String path, String data, String& responseData) {
-    File file(path);
-    if (file.exists()) file.deleteFile();
-    
-    bool writeStatus = file.appendData(data.toStdString().c_str(), data.length());
-    
-    if (writeStatus) {
-        responseData = SK_IPC::OK;
-    } else {
-        responseData = SK_IPC::Error("ENOACCESS");
-    }
-    
-}
+void SK_FS::writeFile(String msgID, String path, String data, String& responseData) 
 
-void SK_FS::readFile(String msgID, String path, String& responseData) {
-    File file(path);
-
-    MemoryBlock mb;
-    file.loadFileAsData(mb);
-
-    String str = mb.toString();
-    
-    responseData = "\"" + Base64::toBase64(str.getCharPointer(), str.length()) + "\"";
-}
+void SK_FS::readFile(String msgID, String path, String& responseData) 
 
 void SK_FS::readdir(String msgID, String path, String& responseData) {
     SSC::JSON::Array fileList;

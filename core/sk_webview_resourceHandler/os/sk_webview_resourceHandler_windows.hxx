@@ -1,3 +1,5 @@
+#pragma once
+
 #include <wil/com.h>
 #include "WebView2.h"
 #include <optional>
@@ -9,7 +11,8 @@
 #include "../../utils/sk_str_utils.hxx"
 #include "../../utils/sk_web_utils.hxx"
 #include "../../utils/sk_file.hxx"
-//#include "../../../module_system/sk_module_system.hxx"
+#include "sk_webview_resourceHandler_response_windows.hxx"
+#include "../../../module_system/sk_module_system.hxx"
 
 
 using namespace SK;
@@ -259,150 +262,6 @@ public:
 };
 
 
-
-
-
-class SK_WebViewResource_Response {
-public:
-    wil::com_ptr<ICoreWebView2Environment> webviewEnvironment;
-
-
-    int statusCode = 404;
-    SK_String statusMessage = "Not found";
-    nlohmann::json headers{ {"Content-Type", "application/json"} };
-    std::vector<BYTE> data;
-
-    wil::com_ptr<ICoreWebView2WebResourceResponse> response;
-
-    SK_WebViewResource_Response::~SK_WebViewResource_Response() {
-        response.reset();
-    }
-
-    void setAsOK() {
-        statusCode = 200;
-        statusMessage = "OK";
-    }
-
-
-    SK_WebViewResource_Response::SK_WebViewResource_Response() {
-        SK_String defaultData = "{\"error\":\"404\",\"message\":\"Not found\"}";
-        data = std::vector<BYTE>(defaultData.data.begin(), defaultData.data.end());
-    }
-
-
-
-
-    bool JSON(nlohmann::json json) {
-        SK_String resAsString = std::any_cast<nlohmann::json>(json).dump(0);
-        //DBGMSG(resAsString.c_str());
-
-        statusMessage = "";
-
-        data = std::vector<BYTE>(resAsString.data.begin(), resAsString.data.end());
-
-        headers["Content-Type"] = "application/json";
-
-        setAsOK();
-
-        return true;
-    }
-
-    bool string(SK_String str, SK_String mimeType = "plain/text") {
-        //DBGMSG(str.c_str());
-
-        statusMessage = "";
-
-        data = std::vector<BYTE>(str.data.begin(), str.data.end());
-        headers["Content-Type"] = mimeType;
-
-        setAsOK();
-
-        return true;
-    }
-
-    bool file(SK_String path, SK_String mimeType = "auto") {
-        //DBGMSG(path.c_str());
-
-
-        SK_File file;
-        if (file.loadFromDisk(path.replaceAll("\\", "/").c_str())) {
-            headers["Content-Type"] = (mimeType == "auto" ? file.mimeType : mimeType);
-            data = std::vector<BYTE>(file.data.begin(), file.data.end());
-            setAsOK();
-            return true;
-        }
-
-        error(); //something went wrong reading the file so we return a 404
-
-        return false;
-    }
-
-
-    bool error(int code = 404, SK_String msg = "Not Found") {
-        statusCode = code;
-        statusMessage = msg;
-
-        JSON({
-            {"error", code},
-            { "message", msg }
-            });
-
-        return this;
-    }
-
-
-
-
-    wil::com_ptr<ICoreWebView2WebResourceResponse> get() {
-        // Create a memory stream from the byte array using CreateStreamOnHGlobal
-        HGLOBAL hGlobal = GlobalAlloc(GMEM_MOVEABLE, data.size());
-        if (hGlobal == nullptr) {
-            // Handle error if memory allocation fails
-            return nullptr;
-        }
-
-        // Lock the global memory and copy data to it
-        void* pData = GlobalLock(hGlobal);
-        if (pData != nullptr) {
-            memcpy(pData, data.data(), data.size());
-            GlobalUnlock(hGlobal);
-            //delete pData;
-        }
-
-
-        // Create an IStream from the global memory handle
-        wil::com_ptr<IStream> contentStream;
-        HRESULT hr = ::CreateStreamOnHGlobal(hGlobal, TRUE, &contentStream);
-        if (FAILED(hr)) {
-            // Handle the error properly if needed
-            GlobalFree(hGlobal);
-            return nullptr;
-        }
-
-
-
-
-        wil::unique_cotaskmem_string _statusMessage = stringToUniqueCoTaskMemString(statusMessage);
-
-        SK_String _headers = jsonToDelimitedString(headers) + "\r\nAccess-Control-Allow-Origin: *\r\n";
-        wil::unique_cotaskmem_string _responseHeaders = stringToUniqueCoTaskMemString(_headers);
-
-        // Create the response with status code, headers, and content stream
-        hr = webviewEnvironment->CreateWebResourceResponse(contentStream.get(),   // The stream containing the custom content
-            statusCode,             // HTTP status code
-            _statusMessage.get(),   // Status message
-            _responseHeaders.get(), // Headers
-            &response               // Output response
-        );
-
-        if (SUCCEEDED(hr)) {
-            return response.get();
-        }
-    }
-};
-
-
-
 using SK_WebViewResourceRequest_Callback = std::function<void(SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith)>;
 
 class SK_WebViewResourceHandler_Route {
@@ -444,7 +303,7 @@ public:
     std::pair<int, SK_WebViewResourceHandler_Route*> findByID(const SK_String& id) {
         for (int i = 0; i < routes.size(); i++) {
             SK_WebViewResourceHandler_Route* route = routes[i];
-            if (route->id == id) return std::pair<int, SK_WebViewResourceHandler_Route*>(i, route);
+            if (route->id.substring(0, id.length()) == id || id.substring(0, route->id.length()) == route->id) return std::pair<int, SK_WebViewResourceHandler_Route*>(i, route);
         }
 
         return std::pair<int, SK_WebViewResourceHandler_Route*>(-1, nullptr);
@@ -465,7 +324,7 @@ public:
 
 class SK_WebViewResourceHandler {
 public:
-    //SK_Module_System* modsys;
+    SK_Module_System* modsys;
 
     SK_WebViewResourceHandler_RouteMngr routes;
 
@@ -505,12 +364,12 @@ public:
             SK_String data = request.path.substring(2, request.path.length()).fromBase64();
             nlohmann::json payload = nlohmann::json::parse(data.data);
 
-            /*modsys->performOperation(
+            modsys->performOperation(
                 payload["module"].get<std::string>(),
                 payload["operation"].get<std::string>(),
                 payload["payload"],
                 respondWith
-            );*/
+            );
 
             int x = 0;
         });
@@ -520,7 +379,7 @@ public:
         SK_String url = request.url;
 
         SK_String routeID = request.protocol + "://" + request.host;
-        SK_WebViewResourceHandler_Route* route = routes[routeID];
+        SK_WebViewResourceHandler_Route* route = routes.findByID_simple(routeID);
 
         if (route == nullptr) {
             routes["*"]->onRequest(request, respondWith);
