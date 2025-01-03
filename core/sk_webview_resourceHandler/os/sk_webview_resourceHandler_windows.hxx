@@ -353,6 +353,16 @@ public:
 
             int x = 0;
         });
+
+        routes.on("https://sk.project", [&](SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith) {
+            int x = 0;
+            #if defined SK_MODE_DEBUG
+                SK_String filePath = SK::SK_Path_Utils::paths["sk_project"] + request.path;
+                respondWith.file(filePath);
+            #else
+
+            #endif
+        });
     }
 
     void handleRequest(SK_WebViewResource_Request& request, SK_WebViewResource_Response& respondWith){

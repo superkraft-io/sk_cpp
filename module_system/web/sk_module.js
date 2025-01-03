@@ -3,7 +3,6 @@ var SK_Module_Scope = (module, require, __dirname, window) => { return (() => { 
 class SK_Module {
     static cache = {}
     constructor() {
-        this.rootDir = 'https://sk.modsys'
     }
 
     loadFromData(data, path) {
@@ -20,7 +19,13 @@ class SK_Module {
     }
 
     loadFromURL(path) {
-        var data = sk_api.fetch(this.rootDir + path)
+        var pathWithoutProtocol = path.replace('http://', '').replace('https://', '')
+
+        var targetRoutes = ['sk.modsys', 'sk.mod']
+        var targetRoute = pathWithoutProtocol.substr(0, path.indexOf('/'))
+        var targetPath = (!targetRoutes.includes(targetRoute) ? 'https://sk.project:' + path : path) 
+
+        var data = sk_api.fetch(targetPath)
 
         var trimmedPath = path.replace('', '').split(':')[0].split('/')
         trimmedPath.splice(trimmedPath.length - 1, 1)

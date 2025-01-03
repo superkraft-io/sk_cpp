@@ -73,7 +73,7 @@ class SK_Global_Core {
 
 
         this.nativeModules = {
-            node: { fs: __dirname + '/node/fs.js' }
+            node: { fs: 'https://sk.modsys/node/fs.js' }
         }
 
 
@@ -132,7 +132,7 @@ class SK_Global_Core {
             for (var u in moduleCategory) {
                 var module = moduleCategory[u]
                 var modName = module.name.split('.')[0]
-                sk_api.nativeModules[catName][modName] = 'sk.mods:/' + catName + '/' + modName + '.js'
+                sk_api.nativeModules[catName][modName] = 'https://sk.mods:/' + catName + '/' + modName + '.js'
             }
         }
     }

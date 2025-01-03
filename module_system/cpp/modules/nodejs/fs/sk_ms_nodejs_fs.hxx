@@ -90,7 +90,7 @@ public:
         SK_File file;
         file.loadFromDisk(path);
 
-        respondWith.JSON(nlohmann::json{ {"data", file.toBase64()} });
+        respondWith.string(file.toBase64());
     };
 
     void readdir(const SK_String& path, SK_WebViewResource_Response& respondWith) {
